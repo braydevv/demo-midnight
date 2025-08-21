@@ -1,593 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games - Midnight Portal</title>
-    <link rel="stylesheet" href="../../common.css">
-    <link rel="stylesheet" href="../../assets/icons.css">
-    <style>
-        /* Games page V2 specific styles */
-        :root {
-            --card-radius: 16px;
-            --gradient-bg: linear-gradient(135deg, #111111, #0a0a0a);
-        }
-        
-        body {
-            background: var(--gradient-bg);
-        }
-        
-        .page-header {
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .page-header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #fff, #0066ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-        }
-        
-        .page-header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-        
-        .page-header::after {
-            content: "";
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: var(--accent-blue);
-            filter: blur(100px);
-            opacity: 0.15;
-            top: -50px;
-            left: 0;
-            z-index: -1;
-        }
-        
-        .search-bar {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 8px 8px 8px 20px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .search-bar:focus-within {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 2px var(--accent-blue-glow);
-        }
-        
-        .search-bar input {
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-size: 16px;
-            width: 100%;
-            outline: none;
-            padding: 8px 0;
-        }
-        
-        .search-bar i {
-            color: var(--accent-blue);
-            margin-right: 12px;
-            font-size: 18px;
-        }
-        
-        .search-bar button {
-            background-color: var(--accent-blue);
-            color: white;
-            border: none;
-            border-radius: 24px;
-            padding: 10px 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .search-bar button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
-        }
-        
-        .categories {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-blue) rgba(255, 255, 255, 0.05);
-        }
-        
-        .categories::-webkit-scrollbar {
-            height: 6px;
-        }
-        
-        .categories::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-        
-        .categories::-webkit-scrollbar-thumb {
-            background: rgba(0, 102, 255, 0.3);
-            border-radius: 10px;
-        }
-        
-        .categories::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-blue);
-        }
-        
-        .category {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        
-        .category:hover {
-            background-color: rgba(0, 102, 255, 0.1);
-            border-color: rgba(0, 102, 255, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .category.active {
-            background-color: var(--accent-blue);
-            color: white;
-            border-color: var(--accent-blue);
-            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
-        }
-        
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 24px;
-        }
-        
-        .game-card {
-            background-color: rgba(26, 26, 26, 0.6);
-            border-radius: var(--card-radius);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .game-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        .game-card:hover::before {
-            opacity: 1;
-        }
-        
-        .game-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(0, 102, 255, 0.3);
-        }
-        
-        .game-image {
-            width: 100%;
-            height: 140px;
-            background-color: rgba(42, 42, 42, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: var(--accent-blue);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .game-image::after {
-            content: "Play";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 102, 255, 0.7);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .game-card:hover .game-image::after {
-            opacity: 1;
-        }
-        
-        .game-info {
-            padding: 16px;
-        }
-        
-        .game-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-            font-size: 1.1rem;
-        }
-        
-        .game-category {
-            font-size: 12px;
-            color: var(--accent-blue);
-            background-color: rgba(0, 102, 255, 0.1);
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-        
-        .featured-game {
-            grid-column: span 2;
-            display: flex;
-            height: 220px;
-            background: linear-gradient(to right, rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.6));
-        }
-        
-        .featured-game .game-image {
-            width: 50%;
-            height: 100%;
-        }
-        
-        .featured-game .game-info {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 24px;
-        }
-        
-        .featured-game .game-title {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            background: linear-gradient(to right, #fff, #0066ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .featured-game .game-description {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        
-        .featured-game .btn {
-            align-self: flex-start;
-            padding: 12px 24px;
-            font-size: 1rem;
-            border-radius: 30px;
-            background: linear-gradient(to right, var(--accent-blue), #0044cc);
-            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .featured-game .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.5);
-        }
-        
-        .trending-section {
-            margin-bottom: 40px;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            color: #fff;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: var(--accent-blue);
-        }
-        
-        @media (max-width: 768px) {
-            .featured-game {
-                grid-column: span 1;
-                flex-direction: column;
-                height: auto;
-            }
-            
-            .featured-game .game-image,
-            .featured-game .game-info {
-                width: 100%;
-            }
-            
-            .featured-game .game-image {
-                height: 180px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>games | midnight</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/fontawesome.css">
+  <script src="js/particles.js" defer></script>
+  <script src="js/icons.js" defer></script>
+  <script src="js/sidebar.js" defer></script>
+  <style>
+    /* Version 3 specific styles */
+    body {
+      background-color: #0a0a0a;
+      background-image: radial-gradient(circle at top right, rgba(0, 102, 255, 0.1), transparent 70%);
+    }
+    
+    h1, h2, h3, h4, h5, h6, p, a, span, div {
+      text-transform: lowercase;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      letter-spacing: -1px;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--midnight-blue);
+      border-radius: 3px;
+    }
+    
+    .sidebar {
+      background-color: rgba(15, 15, 15, 0.95);
+      box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .sidebar-right .sidebar {
+      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .nav-item {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .nav-item:hover {
+      transform: translateY(-5px) scale(1.1);
+    }
+    
+    .nav-item .tooltip {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .search-bar {
+      background-color: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .search-bar:focus-within {
+      transform: scale(1.02);
+    }
+    
+    .card-grid {
+      gap: 25px;
+    }
+    
+    .card-v3 {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card-v3:hover {
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+    
+    .card-v3 .card-image {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card-v3:hover .card-image {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+    
+    .page-transition {
+      animation: slideUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Category filters */
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .category-filter {
+      background-color: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(5px);
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+    
+    .category-filter:hover {
+      background-color: rgba(40, 40, 40, 0.8);
+      transform: translateY(-2px);
+    }
+    
+    .category-filter.active {
+      background-color: rgba(0, 102, 255, 0.2);
+      border-color: rgba(0, 102, 255, 0.5);
+      color: var(--midnight-white);
+    }
+    
+    /* Hide cards when filtered */
+    .card-v3.hidden {
+      display: none;
+    }
+    
+    /* No results message */
+    .no-results {
+      text-align: center;
+      padding: 50px 0;
+      color: #aaa;
+      font-size: 1.2rem;
+      display: none;
+    }
+  </style>
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-icon" data-page="home">
-            <i class="icon-home"></i>
-            <span class="sidebar-tooltip">Home</span>
-        </div>
-        <div class="sidebar-icon" data-page="g">
-            <i class="icon-games"></i>
-            <span class="sidebar-tooltip">Games</span>
-        </div>
-        <div class="sidebar-icon" data-page="a">
-            <i class="icon-apps"></i>
-            <span class="sidebar-tooltip">Apps</span>
-        </div>
-        <div class="sidebar-icon" data-page="p">
-            <i class="icon-proxy"></i>
-            <span class="sidebar-tooltip">Proxy</span>
-        </div>
-        <div class="sidebar-icon" data-page="s">
-            <i class="icon-settings"></i>
-            <span class="sidebar-tooltip">Settings</span>
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html" id="logo">
+        <i class="fa fa-globe"></i>
+      </a>
     </div>
     
-    <!-- Main Content -->
-    <div class="content">
-        <div class="page-header">
-            <h1>Games</h1>
-            <p>Discover and play unblocked games</p>
-        </div>
-        
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <i class="icon-search"></i>
-            <input type="text" placeholder="Search for games..." id="search-input">
-            <button id="search-button">Search</button>
-        </div>
-        
-        <!-- Categories -->
-        <div class="categories">
-            <div class="category active">All Games</div>
-            <div class="category">Action</div>
-            <div class="category">Adventure</div>
-            <div class="category">Arcade</div>
-            <div class="category">Puzzle</div>
-            <div class="category">Racing</div>
-            <div class="category">Sports</div>
-            <div class="category">Strategy</div>
-            <div class="category">Multiplayer</div>
-        </div>
-        
-        <!-- Featured Game Section -->
-        <div class="trending-section">
-            <div class="section-title">
-                <i class="icon-games"></i> Featured Game
-            </div>
-            
-            <div class="game-card featured-game">
-                <div class="game-image">Featured Game</div>
-                <div class="game-info">
-                    <div class="game-title">Epic Adventure</div>
-                    <div class="game-category">Adventure, Action</div>
-                    <div class="game-description">Embark on an epic journey through mysterious lands and battle fearsome creatures. Discover hidden treasures and unlock powerful abilities as you progress through this immersive adventure.</div>
-                    <button class="btn">Play Now</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Trending Games Section -->
-        <div class="trending-section">
-            <div class="section-title">
-                <i class="icon-games"></i> Trending Games
-            </div>
-            
-            <div class="games-grid">
-                <div class="game-card">
-                    <div class="game-image">Game 1</div>
-                    <div class="game-info">
-                        <div class="game-title">Pixel Racer</div>
-                        <div class="game-category">Racing</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 2</div>
-                    <div class="game-info">
-                        <div class="game-title">Puzzle Master</div>
-                        <div class="game-category">Puzzle</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 3</div>
-                    <div class="game-info">
-                        <div class="game-title">Space Shooter</div>
-                        <div class="game-category">Action</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 4</div>
-                    <div class="game-info">
-                        <div class="game-title">Strategy Empire</div>
-                        <div class="game-category">Strategy</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- All Games Section -->
-        <div class="trending-section">
-            <div class="section-title">
-                <i class="icon-games"></i> All Games
-            </div>
-            
-            <div class="games-grid">
-                <div class="game-card">
-                    <div class="game-image">Game 5</div>
-                    <div class="game-info">
-                        <div class="game-title">Basketball Pro</div>
-                        <div class="game-category">Sports</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 6</div>
-                    <div class="game-info">
-                        <div class="game-title">Zombie Survival</div>
-                        <div class="game-category">Action, Adventure</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 7</div>
-                    <div class="game-info">
-                        <div class="game-title">Retro Arcade</div>
-                        <div class="game-category">Arcade</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 8</div>
-                    <div class="game-info">
-                        <div class="game-title">Battle Royale</div>
-                        <div class="game-category">Multiplayer, Action</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 9</div>
-                    <div class="game-info">
-                        <div class="game-title">Puzzle Quest</div>
-                        <div class="game-category">Puzzle</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 10</div>
-                    <div class="game-info">
-                        <div class="game-title">Speed Racer</div>
-                        <div class="game-category">Racing</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 11</div>
-                    <div class="game-info">
-                        <div class="game-title">Soccer Star</div>
-                        <div class="game-category">Sports</div>
-                    </div>
-                </div>
-                
-                <div class="game-card">
-                    <div class="game-image">Game 12</div>
-                    <div class="game-info">
-                        <div class="game-title">Dungeon Crawler</div>
-                        <div class="game-category">Adventure</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="sidebar-nav">
+      <a href="index.html" class="nav-item" id="nav-home">
+        <i class="fa fa-home"></i>
+        <span class="tooltip">home</span>
+      </a>
+      
+      <a href="g.html" class="nav-item active" id="nav-games">
+        <i class="fa fa-gamepad"></i>
+        <span class="tooltip">games</span>
+      </a>
+      
+      <a href="a.html" class="nav-item" id="nav-apps">
+        <i class="fa fa-th"></i>
+        <span class="tooltip">apps</span>
+      </a>
+      
+      <a href="p.html" class="nav-item" id="nav-proxy">
+        <i class="fa fa-globe"></i>
+        <span class="tooltip">proxy</span>
+      </a>
     </div>
-
-    <script src="../../common.js"></script>
-    <script>
-        // Games page specific JavaScript
-        document.getElementById('search-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchGames(this.value);
-            }
+    
+    <div class="sidebar-bottom">
+      <a href="s.html" class="nav-item" id="nav-settings">
+        <i class="fa fa-cog"></i>
+        <span class="tooltip">settings</span>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="container page-transition">
+    <h1>games</h1>
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <i class="fa fa-search" style="margin-right: 10px; color: #aaa;"></i>
+      <input type="text" placeholder="search games..." id="search-input">
+    </div>
+    
+    <!-- Category Filters -->
+    <div class="category-filters">
+      <div class="category-filter active" data-category="all">all games</div>
+      <div class="category-filter" data-category="arcade">arcade</div>
+      <div class="category-filter" data-category="puzzle">puzzle</div>
+      <div class="category-filter" data-category="action">action</div>
+      <div class="category-filter" data-category="strategy">strategy</div>
+      <div class="category-filter" data-category="multiplayer">multiplayer</div>
+      <div class="category-filter" data-category="runner">runner</div>
+      <div class="category-filter" data-category="platform">platform</div>
+    </div>
+    
+    <!-- No Results Message -->
+    <div class="no-results">
+      <p>no games found matching your search</p>
+    </div>
+    
+    <!-- Games Grid -->
+    <div class="card-grid">
+      <!-- Row 1 -->
+      <div class="card-v3" data-title="2048" data-categories="puzzle,strategy">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+1" alt="Game 1" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play 2048">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">2048</div>
+          <div class="card-description">puzzle game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="slope" data-categories="action,runner">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+2" alt="Game 2" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play slope">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">slope</div>
+          <div class="card-description">3d running game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="subway surfers" data-categories="runner,action">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+3" alt="Game 3" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play subway surfers">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">subway surfers</div>
+          <div class="card-description">endless runner</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="minecraft" data-categories="strategy,multiplayer">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+4" alt="Game 4" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play minecraft">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">minecraft</div>
+          <div class="card-description">building & survival</div>
+        </div>
+      </div>
+      
+      <!-- Row 2 -->
+      <div class="card-v3" data-title="among us" data-categories="multiplayer,strategy">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+5" alt="Game 5" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play among us">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">among us</div>
+          <div class="card-description">social deduction</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="flappy bird" data-categories="arcade">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+6" alt="Game 6" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play flappy bird">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">flappy bird</div>
+          <div class="card-description">arcade game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="tetris" data-categories="puzzle,arcade">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+7" alt="Game 7" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play tetris">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">tetris</div>
+          <div class="card-description">puzzle game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="cookie clicker" data-categories="strategy">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+8" alt="Game 8" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play cookie clicker">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">cookie clicker</div>
+          <div class="card-description">idle game</div>
+        </div>
+      </div>
+      
+      <!-- Row 3 -->
+      <div class="card-v3" data-title="geometry dash" data-categories="action,arcade">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+9" alt="Game 9" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play geometry dash">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">geometry dash</div>
+          <div class="card-description">rhythm-based action</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="wordle" data-categories="puzzle">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+10" alt="Game 10" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play wordle">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">wordle</div>
+          <div class="card-description">word puzzle</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="crossy road" data-categories="arcade">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+11" alt="Game 11" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play crossy road">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">crossy road</div>
+          <div class="card-description">arcade game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="cut the rope" data-categories="puzzle">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+12" alt="Game 12" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play cut the rope">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">cut the rope</div>
+          <div class="card-description">physics puzzle</div>
+        </div>
+      </div>
+      
+      <!-- Row 4 -->
+      <div class="card-v3" data-title="doodle jump" data-categories="platform,arcade">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+13" alt="Game 13" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play doodle jump">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">doodle jump</div>
+          <div class="card-description">platform game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="fruit ninja" data-categories="arcade,action">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+14" alt="Game 14" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play fruit ninja">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">fruit ninja</div>
+          <div class="card-description">arcade game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="temple run" data-categories="runner,action">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+15" alt="Game 15" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play temple run">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">temple run</div>
+          <div class="card-description">endless runner</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="angry birds" data-categories="puzzle,strategy">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+16" alt="Game 16" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play angry birds">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">angry birds</div>
+          <div class="card-description">physics puzzle</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Initialize search and filter functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('search-input');
+      const categoryFilters = document.querySelectorAll('.category-filter');
+      const gameCards = document.querySelectorAll('.card-v3');
+      const noResults = document.querySelector('.no-results');
+      
+      // Check URL for search parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchQuery = urlParams.get('search');
+      if (searchQuery) {
+        searchInput.value = searchQuery;
+        filterGames(searchQuery, 'all');
+      }
+      
+      // Search functionality
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        const activeCategory = document.querySelector('.category-filter.active').getAttribute('data-category');
+        filterGames(query, activeCategory);
+      });
+      
+      // Category filter functionality
+      categoryFilters.forEach(filter => {
+        filter.addEventListener('click', () => {
+          // Update active state
+          categoryFilters.forEach(f => f.classList.remove('active'));
+          filter.classList.add('active');
+          
+          // Filter games
+          const category = filter.getAttribute('data-category');
+          const query = searchInput.value.trim().toLowerCase();
+          filterGames(query, category);
+        });
+      });
+      
+      // Function to filter games by search query and category
+      function filterGames(query, category) {
+        let visibleCount = 0;
+        
+        gameCards.forEach(card => {
+          const title = card.getAttribute('data-title').toLowerCase();
+          const categories = card.getAttribute('data-categories').split(',');
+          
+          // Check if card matches both search query and category filter
+          const matchesSearch = query === '' || title.includes(query);
+          const matchesCategory = category === 'all' || categories.includes(category);
+          
+          if (matchesSearch && matchesCategory) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
         });
         
-        document.getElementById('search-button').addEventListener('click', function() {
-            searchGames(document.getElementById('search-input').value);
-        });
-        
-        function searchGames(query) {
-            // Simple search implementation
-            const q = query.toLowerCase();
-            const gameCards = document.querySelectorAll('.game-card');
-            
-            gameCards.forEach(card => {
-                const title = card.querySelector('.game-title').textContent.toLowerCase();
-                const category = card.querySelector('.game-category').textContent.toLowerCase();
-                
-                if (title.includes(q) || category.includes(q)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        // Show/hide no results message
+        if (visibleCount === 0) {
+          noResults.style.display = 'block';
+        } else {
+          noResults.style.display = 'none';
         }
-        
-        // Category filtering
-        document.querySelectorAll('.category').forEach(category => {
-            category.addEventListener('click', function() {
-                // Remove active class from all categories
-                document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked category
-                this.classList.add('active');
-                
-                const categoryText = this.textContent.toLowerCase();
-                const gameCards = document.querySelectorAll('.game-card');
-                
-                if (categoryText === 'all games') {
-                    // Show all games
-                    gameCards.forEach(card => {
-                        card.style.display = '';
-                    });
-                } else {
-                    // Filter games by category
-                    gameCards.forEach(card => {
-                        const cardCategory = card.querySelector('.game-category').textContent.toLowerCase();
-                        
-                        if (cardCategory.includes(categoryText)) {
-                            card.style.display = '';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                }
-            });
-        });
-        
-        // Make game cards clickable
-        document.querySelectorAll('.game-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const gameTitle = this.querySelector('.game-title').textContent;
-                alert(`Loading game: ${gameTitle}`);
-                // In a real implementation, this would launch the game
-            });
-        });
-    </script>
+      }
+    });
+  </script>
 </body>
 </html>
