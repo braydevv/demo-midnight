@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps - Midnight Portal</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../../assets/icons.css">
+    <style>
+        /* Apps page V2 specific styles */
+        :root {
+            --card-radius: 16px;
+            --gradient-bg: linear-gradient(135deg, #111111, #0a0a0a);
+        }
+        
+        body {
+            background: var(--gradient-bg);
+        }
+        
+        .page-header {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .page-header::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--accent-blue);
+            filter: blur(100px);
+            opacity: 0.15;
+            top: -50px;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .search-bar {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 8px 8px 8px 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px var(--accent-blue-glow);
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+            padding: 8px 0;
+        }
+        
+        .search-bar i {
+            color: var(--accent-blue);
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .search-bar button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+        }
+        
+        .app-categories {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-blue) rgba(255, 255, 255, 0.05);
+        }
+        
+        .app-categories::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .app-categories::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .app-categories::-webkit-scrollbar-thumb {
+            background: rgba(0, 102, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        .app-categories::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+        
+        .app-category {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .app-category:hover {
+            background-color: rgba(0, 102, 255, 0.1);
+            border-color: rgba(0, 102, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .app-category.active {
+            background-color: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .app-card {
+            background-color: rgba(26, 26, 26, 0.6);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .app-card:hover::before {
+            opacity: 1;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 102, 255, 0.3);
+        }
+        
+        .app-icon {
+            width: 100%;
+            height: 140px;
+            background-color: rgba(42, 42, 42, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--accent-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-icon::after {
+            content: "Launch";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 102, 255, 0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .app-card:hover .app-icon::after {
+            opacity: 1;
+        }
+        
+        .app-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .app-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+        
+        .app-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .app-category-tag {
+            font-size: 12px;
+            background-color: rgba(0, 102, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 102, 255, 0.2);
+        }
+        
+        .app-card .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: linear-gradient(to right, var(--accent-blue), #0044cc);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.2);
+        }
+        
+        .app-card .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.4);
+        }
+        
+        .featured-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--accent-blue);
+        }
+        
+        .featured-app {
+            background: linear-gradient(to right, rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.6));
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            display: flex;
+            height: 220px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .featured-app:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 102, 255, 0.3);
+        }
+        
+        .featured-app .app-icon {
+            width: 40%;
+            height: 100%;
+            font-size: 72px;
+        }
+        
+        .featured-app .app-info {
+            width: 60%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .featured-app .app-title {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #fff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .featured-app .app-description {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        .featured-app .btn {
+            align-self: flex-start;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 30px;
+            background: linear-gradient(to right, var(--accent-blue), #0044cc);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
+        }
+        
+        .featured-app .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .featured-app {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .featured-app .app-icon,
+            .featured-app .app-info {
+                width: 100%;
+            }
+            
+            .featured-app .app-icon {
+                height: 180px;
+            }
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-icon" data-page="home">
+            <i class="icon-home"></i>
+            <span class="sidebar-tooltip">Home</span>
+        </div>
+        <div class="sidebar-icon" data-page="g">
+            <i class="icon-games"></i>
+            <span class="sidebar-tooltip">Games</span>
+        </div>
+        <div class="sidebar-icon" data-page="a">
+            <i class="icon-apps"></i>
+            <span class="sidebar-tooltip">Apps</span>
+        </div>
+        <div class="sidebar-icon" data-page="p">
+            <i class="icon-proxy"></i>
+            <span class="sidebar-tooltip">Proxy</span>
+        </div>
+        <div class="sidebar-icon" data-page="s">
+            <i class="icon-settings"></i>
+            <span class="sidebar-tooltip">Settings</span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <div class="page-header">
+            <h1>Apps & Utilities</h1>
+            <p>Discover useful tools and applications</p>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <i class="icon-search"></i>
+            <input type="text" placeholder="Search for apps and utilities..." id="search-input">
+            <button id="search-button">Search</button>
+        </div>
+        
+        <!-- Categories -->
+        <div class="app-categories">
+            <div class="app-category active">All Apps</div>
+            <div class="app-category">Productivity</div>
+            <div class="app-category">Entertainment</div>
+            <div class="app-category">Education</div>
+            <div class="app-category">Social</div>
+            <div class="app-category">Utilities</div>
+            <div class="app-category">Tools</div>
+        </div>
+        
+        <!-- Featured App -->
+        <div class="featured-section">
+            <div class="section-title">
+                <i class="icon-apps"></i> Featured App
+            </div>
+            
+            <div class="featured-app">
+                <div class="app-icon">📝</div>
+                <div class="app-info">
+                    <div class="app-title">Stealth Notes</div>
+                    <div class="app-description">Secure note-taking app with end-to-end encryption and cloud sync. Keep your thoughts private and accessible from anywhere. Features automatic locking, password protection, and secure sharing options.</div>
+                    <button class="btn">Launch App</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Productivity Apps Section -->
+        <div class="featured-section">
+            <div class="section-title">
+                <i class="icon-apps"></i> Productivity
+            </div>
+            
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-icon">📊</div>
+                    <div class="app-info">
+                        <div class="app-title">Data Analyzer</div>
+                        <div class="app-description">Powerful tool for analyzing and visualizing data with interactive charts and graphs.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Tools</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-icon">📅</div>
+                    <div class="app-info">
+                        <div class="app-title">Calendar</div>
+                        <div class="app-description">Organize your schedule and set reminders with this intuitive calendar app.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Productivity</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-icon">🔄</div>
+                    <div class="app-info">
+                        <div class="app-title">File Converter</div>
+                        <div class="app-description">Convert between different file formats easily with this versatile tool.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Utilities</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Entertainment Apps Section -->
+        <div class="featured-section">
+            <div class="section-title">
+                <i class="icon-games"></i> Entertainment
+            </div>
+            
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-icon">🎬</div>
+                    <div class="app-info">
+                        <div class="app-title">Stream Hub</div>
+                        <div class="app-description">Access all your favorite streaming services in one place with this convenient hub.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Entertainment</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-icon">🎵</div>
+                    <div class="app-info">
+                        <div class="app-title">Music Player</div>
+                        <div class="app-description">Listen to your favorite music with this sleek and feature-rich music player.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Entertainment</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Education Apps Section -->
+        <div class="featured-section">
+            <div class="section-title">
+                <i class="icon-apps"></i> Education
+            </div>
+            
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-icon">🧮</div>
+                    <div class="app-info">
+                        <div class="app-title">Math Solver</div>
+                        <div class="app-description">Advanced calculator with step-by-step solutions for complex math problems.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Education</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-icon">📚</div>
+                    <div class="app-info">
+                        <div class="app-title">Study Assistant</div>
+                        <div class="app-description">Comprehensive study tool with flashcards, notes, and quiz features.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Education</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-icon">🌎</div>
+                    <div class="app-info">
+                        <div class="app-title">Language Translator</div>
+                        <div class="app-description">Translate text between multiple languages with this powerful tool.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Education</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Social Apps Section -->
+        <div class="featured-section">
+            <div class="section-title">
+                <i class="icon-partners"></i> Social
+            </div>
+            
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-icon">💬</div>
+                    <div class="app-info">
+                        <div class="app-title">Midnight Chat</div>
+                        <div class="app-description">Secure messaging platform with end-to-end encryption for private conversations.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Social</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-icon">🌐</div>
+                    <div class="app-info">
+                        <div class="app-title">Social Hub</div>
+                        <div class="app-description">Access multiple social networks in one place with this convenient hub.</div>
+                        <div class="app-actions">
+                            <span class="app-category-tag">Social</span>
+                            <button class="btn">Launch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common.js"></script>
+    <script>
+        // Apps page specific JavaScript
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchApps(this.value);
+            }
+        });
+        
+        document.getElementById('search-button').addEventListener('click', function() {
+            searchApps(document.getElementById('search-input').value);
+        });
+        
+        function searchApps(query) {
+            // Simple search implementation
+            const q = query.toLowerCase();
+            const appCards = document.querySelectorAll('.app-card, .featured-app');
+            
+            appCards.forEach(card => {
+                const title = card.querySelector('.app-title').textContent.toLowerCase();
+                const description = card.querySelector('.app-description').textContent.toLowerCase();
+                const category = card.querySelector('.app-category-tag')?.textContent.toLowerCase() || '';
+                
+                if (title.includes(q) || description.includes(q) || category.includes(q)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Category filtering
+        document.querySelectorAll('.app-category').forEach(category => {
+            category.addEventListener('click', function() {
+                // Remove active class from all categories
+                document.querySelectorAll('.app-category').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked category
+                this.classList.add('active');
+                
+                const categoryText = this.textContent.toLowerCase();
+                const appCards = document.querySelectorAll('.app-card');
+                const featuredApp = document.querySelector('.featured-app');
+                
+                if (categoryText === 'all apps') {
+                    // Show all apps
+                    appCards.forEach(card => {
+                        card.style.display = '';
+                    });
+                    featuredApp.style.display = '';
+                } else {
+                    // Filter apps by category
+                    appCards.forEach(card => {
+                        const cardCategory = card.querySelector('.app-category-tag').textContent.toLowerCase();
+                        
+                        if (cardCategory === categoryText) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // Hide featured app if it doesn't match the category
+                    const featuredCategory = featuredApp.querySelector('.app-title').textContent.toLowerCase();
+                    if (featuredCategory.includes(categoryText) || categoryText.includes('productivity')) {
+                        featuredApp.style.display = '';
+                    } else {
+                        featuredApp.style.display = 'none';
+                    }
+                }
+            });
+        });
+        
+        // Make app launch buttons clickable
+        document.querySelectorAll('.app-card .btn, .featured-app .btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent card click event
+                const appTitle = this.closest('.app-card, .featured-app').querySelector('.app-title').textContent;
+                alert(`Launching app: ${appTitle}`);
+                // In a real implementation, this would launch the app
+            });
+        });
+        
+        // Make app cards clickable
+        document.querySelectorAll('.app-card, .featured-app').forEach(card => {
+            card.addEventListener('click', function() {
+                const appTitle = this.querySelector('.app-title').textContent;
+                alert(`Opening app details: ${appTitle}`);
+                // In a real implementation, this would show app details
+            });
+        });
+    </script>
+</body>
+</html>
