@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Midnight Portal</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../../assets/icons.css">
+    <style>
+        /* Settings page V2 specific styles */
+        :root {
+            --card-radius: 16px;
+            --gradient-bg: linear-gradient(135deg, #111111, #0a0a0a);
+        }
+        
+        body {
+            background: var(--gradient-bg);
+        }
+        
+        .page-header {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .page-header::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--accent-blue);
+            filter: blur(100px);
+            opacity: 0.15;
+            top: -50px;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .settings-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .settings-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .settings-card {
+            background-color: rgba(26, 26, 26, 0.6);
+            border-radius: var(--card-radius);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .settings-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .settings-card:hover::before {
+            opacity: 1;
+        }
+        
+        .settings-card:hover {
+            border-color: rgba(0, 102, 255, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .settings-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(to right, #fff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .settings-title i {
+            margin-right: 12px;
+            color: var(--accent-blue);
+            -webkit-text-fill-color: var(--accent-blue);
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .setting-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 54px;
+            height: 28px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 3px;
+            background-color: var(--text-secondary);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--accent-blue);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+            background-color: white;
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .color-option {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .color-option.active {
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--accent-blue);
+        }
+        
+        .color-option.active::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .color-blue {
+            background-color: #0066ff;
+            background-image: linear-gradient(135deg, #0066ff, #0044cc);
+        }
+        
+        .color-purple {
+            background-color: #9c27b0;
+            background-image: linear-gradient(135deg, #9c27b0, #7b1fa2);
+        }
+        
+        .color-green {
+            background-color: #4caf50;
+            background-image: linear-gradient(135deg, #4caf50, #388e3c);
+        }
+        
+        .sidebar-position-options {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .position-option {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 20px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .position-option:hover {
+            border-color: rgba(0, 102, 255, 0.3);
+            background-color: rgba(0, 102, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .position-option.active {
+            background-color: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
+        }
+        
+        .panic-button {
+            background: linear-gradient(to right, #ff3333, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(255, 51, 51, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .panic-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .panic-button:hover::before {
+            left: 100%;
+        }
+        
+        .panic-button:hover {
+            background: linear-gradient(to right, #e60000, #b30000);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4);
+        }
+        
+        .panic-button i {
+            font-size: 20px;
+        }
+        
+        .about-section {
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about-section p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .version-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: linear-gradient(to right, var(--accent-blue), #0044cc);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.2);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, #ff3333, #cc0000);
+            box-shadow: 0 5px 15px rgba(255, 51, 51, 0.2);
+        }
+        
+        .btn-danger:hover {
+            box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4);
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-icon" data-page="home">
+            <i class="icon-home"></i>
+            <span class="sidebar-tooltip">Home</span>
+        </div>
+        <div class="sidebar-icon" data-page="g">
+            <i class="icon-games"></i>
+            <span class="sidebar-tooltip">Games</span>
+        </div>
+        <div class="sidebar-icon" data-page="a">
+            <i class="icon-apps"></i>
+            <span class="sidebar-tooltip">Apps</span>
+        </div>
+        <div class="sidebar-icon" data-page="p">
+            <i class="icon-proxy"></i>
+            <span class="sidebar-tooltip">Proxy</span>
+        </div>
+        <div class="sidebar-icon" data-page="s">
+            <i class="icon-settings"></i>
+            <span class="sidebar-tooltip">Settings</span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <div class="page-header">
+            <h1>Settings</h1>
+            <p>Customize your Midnight Portal experience</p>
+        </div>
+        
+        <div class="settings-container">
+            <!-- Appearance Settings -->
+            <div class="settings-card">
+                <div class="settings-title">
+                    <i class="icon-theme"></i> Appearance
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Accent Color</div>
+                        <div class="setting-description">Choose your preferred accent color for buttons, highlights, and interactive elements</div>
+                    </div>
+                    <div class="color-options">
+                        <div class="color-option color-blue active" data-color="blue"></div>
+                        <div class="color-option color-purple" data-color="purple"></div>
+                        <div class="color-option color-green" data-color="green"></div>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Sidebar Position</div>
+                        <div class="setting-description">Choose where the navigation sidebar appears on your screen</div>
+                    </div>
+                    <div class="sidebar-position-options">
+                        <div class="position-option active" data-position="left">
+                            <i class="icon-position"></i> Left
+                        </div>
+                        <div class="position-option" data-position="right">
+                            <i class="icon-position"></i> Right
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Dark Mode</div>
+                        <div class="setting-description">Always enabled for stealth and reduced eye strain</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" checked disabled>
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Animation Effects</div>
+                        <div class="setting-description">Enable smooth transitions and animations</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="animations" checked>
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Privacy Settings -->
+            <div class="settings-card">
+                <div class="settings-title">
+                    <i class="icon-proxy"></i> Privacy & Security
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Clear History on Exit</div>
+                        <div class="setting-description">Automatically clear browsing history when you close the portal</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="clear-history" checked>
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Stealth Mode</div>
+                        <div class="setting-description">Hide from network monitoring and tracking systems</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="stealth-mode" checked>
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Auto-Lock</div>
+                        <div class="setting-description">Automatically lock the portal after period of inactivity</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="auto-lock">
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Panic Button</div>
+                        <div class="setting-description">Quickly exit to Google when needed</div>
+                    </div>
+                </div>
+                
+                <button class="panic-button" onclick="activatePanic()">
+                    <i class="icon-panic"></i> Activate Panic Button
+                </button>
+            </div>
+            
+            <!-- About -->
+            <div class="settings-card">
+                <div class="settings-title">
+                    <i class="icon-home"></i> About Midnight Portal
+                </div>
+                
+                <div class="about-section">
+                    <p>Midnight Portal is a sleek, unblocked gateway to content and tools. Designed with privacy and accessibility in mind, our portal provides secure access to games, applications, and web browsing.</p>
+                    <p>Our mission is to provide unrestricted access to educational resources, entertainment, and communication tools while maintaining user privacy and security.</p>
+                    <p>The portal features a modern, intuitive interface with customizable settings to enhance your browsing experience.</p>
+                </div>
+                
+                <div class="version-info">
+                    Version 1.0.0 | © 2025 Midnight Portal | Last Updated: August 15, 2025
+                </div>
+            </div>
+            
+            <!-- Advanced Settings -->
+            <div class="settings-card">
+                <div class="settings-title">
+                    <i class="icon-settings"></i> Advanced Settings
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Proxy Configuration</div>
+                        <div class="setting-description">Configure proxy settings for secure browsing</div>
+                    </div>
+                    <button class="btn" onclick="window.location.href='../p.html'">Configure</button>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Connection Speed</div>
+                        <div class="setting-description">Optimize for speed or security</div>
+                    </div>
+                    <div class="sidebar-position-options">
+                        <div class="position-option" data-speed="balanced">Balanced</div>
+                        <div class="position-option active" data-speed="speed">Speed</div>
+                        <div class="position-option" data-speed="security">Security</div>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Clear All Data</div>
+                        <div class="setting-description">Reset all settings and clear browsing data</div>
+                    </div>
+                    <button class="btn btn-danger" id="clear-data">Clear</button>
+                </div>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Keyboard Shortcuts</div>
+                        <div class="setting-description">Configure keyboard shortcuts for quick navigation</div>
+                    </div>
+                    <button class="btn" id="shortcuts">Configure</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common.js"></script>
+    <script>
+        // Settings page specific JavaScript
+        
+        // Accent color selection
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const color = this.getAttribute('data-color');
+                
+                // Remove active class from all options
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to selected option
+                this.classList.add('active');
+                
+                // Save setting
+                saveSettings('accent', color);
+                
+                // Apply color change
+                document.documentElement.style.setProperty('--accent-blue', getColorValue(color));
+                document.documentElement.style.setProperty('--accent-blue-glow', getColorGlowValue(color));
+            });
+        });
+        
+        // Helper function to get color value
+        function getColorValue(color) {
+            switch(color) {
+                case 'purple': return '#9c27b0';
+                case 'green': return '#4caf50';
+                default: return '#0066ff'; // Blue (default)
+            }
+        }
+        
+        // Helper function to get color glow value
+        function getColorGlowValue(color) {
+            switch(color) {
+                case 'purple': return 'rgba(156, 39, 176, 0.5)';
+                case 'green': return 'rgba(76, 175, 80, 0.5)';
+                default: return 'rgba(0, 102, 255, 0.5)'; // Blue (default)
+            }
+        }
+        
+        // Sidebar position selection
+        document.querySelectorAll('.position-option[data-position]').forEach(option => {
+            option.addEventListener('click', function() {
+                const position = this.getAttribute('data-position');
+                
+                // Remove active class from all options
+                document.querySelectorAll('.position-option[data-position]').forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to selected option
+                this.classList.add('active');
+                
+                // Save setting
+                saveSettings('sidebar', position);
+            });
+        });
+        
+        // Connection speed selection
+        document.querySelectorAll('.position-option[data-speed]').forEach(option => {
+            option.addEventListener('click', function() {
+                const speed = this.getAttribute('data-speed');
+                
+                // Remove active class from all options
+                document.querySelectorAll('.position-option[data-speed]').forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to selected option
+                this.classList.add('active');
+                
+                // In a real implementation, this would adjust connection settings
+                console.log(`Connection speed set to: ${speed}`);
+            });
+        });
+        
+        // Clear data button
+        document.getElementById('clear-data').addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+                localStorage.clear();
+                alert('All data has been cleared. The page will now reload.');
+                window.location.reload();
+            }
+        });
+        
+        // Keyboard shortcuts button
+        document.getElementById('shortcuts').addEventListener('click', function() {
+            alert('Keyboard shortcuts configuration coming soon!');
+        });
+        
+        // Animation toggle
+        document.getElementById('animations').addEventListener('change', function() {
+            if (this.checked) {
+                document.documentElement.style.setProperty('--transition-speed', '0.3s');
+            } else {
+                document.documentElement.style.setProperty('--transition-speed', '0s');
+            }
+        });
+        
+        // Apply saved settings on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedAccent = localStorage.getItem('midnight_accent') || 'blue';
+            const savedSidebar = localStorage.getItem('midnight_sidebar') || 'left';
+            
+            // Apply accent color
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+            document.querySelector(`.color-option[data-color="${savedAccent}"]`).classList.add('active');
+            
+            // Apply sidebar position
+            document.querySelectorAll('.position-option[data-position]').forEach(opt => opt.classList.remove('active'));
+            document.querySelector(`.position-option[data-position="${savedSidebar}"]`).classList.add('active');
+        });
+    </script>
+</body>
+</html>
