@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>midnight portal</title>
+    <link rel="stylesheet" href="../../common.css">
+    <link rel="stylesheet" href="../../assets/icons.css">
+    <link rel="stylesheet" href="../../assets/rain.css">
+    <link rel="stylesheet" href="../../assets/sidebar.css">
+    <style>
+        /* Homepage V2 specific styles */
+        :root {
+            --card-radius: 16px;
+            --gradient-bg: linear-gradient(135deg, #111111, #0a0a0a);
+        }
+        
+        body {
+            background: var(--gradient-bg);
+        }
+        
+        .hero {
+            text-align: center;
+            margin: 20px 0 40px;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #fff, #0066ff, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: var(--accent-blue);
+            filter: blur(120px);
+            opacity: 0.2;
+            top: -50px;
+            left: calc(50% - 100px);
+            z-index: -1;
+        }
+        
+        .search-bar {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 8px 8px 8px 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px var(--accent-blue-glow);
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+            padding: 8px 0;
+        }
+        
+        .search-bar i {
+            color: var(--accent-blue);
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .search-bar button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+        }
+        
+        .card {
+            background-color: rgba(26, 26, 26, 0.6);
+            border-radius: var(--card-radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 102, 255, 0.3);
+        }
+        
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h2 i {
+            margin-right: 10px;
+            color: var(--accent-blue);
+            font-size: 1.2em;
+        }
+        
+        .announcements {
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-blue) rgba(255, 255, 255, 0.1);
+        }
+        
+        .announcement-item {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .announcement-item:hover {
+            background-color: rgba(0, 102, 255, 0.05);
+            border-color: rgba(0, 102, 255, 0.2);
+        }
+        
+        .announcement-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--accent-blue);
+        }
+        
+        .announcement-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+        
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 20px;
+        }
+        
+        .partner-logo {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .partner-logo:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+        
+        .shortcuts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .shortcut {
+            text-align: center;
+            padding: 20px;
+            border-radius: 16px;
+            background-color: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .shortcut:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-blue);
+            background-color: rgba(0, 102, 255, 0.05);
+        }
+        
+        .shortcut i {
+            font-size: 28px;
+            margin-bottom: 12px;
+            color: var(--accent-blue);
+        }
+        
+        .shortcut span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .stat-card {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Custom scrollbar */
+        .announcements::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .announcements::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .announcements::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 10px;
+        }
+        
+        .announcements::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-icon" data-page="home">
+            <i class="icon-home"></i>
+            <span class="sidebar-tooltip">Home</span>
+        </div>
+        <div class="sidebar-icon" data-page="g">
+            <i class="icon-games"></i>
+            <span class="sidebar-tooltip">Games</span>
+        </div>
+        <div class="sidebar-icon" data-page="a">
+            <i class="icon-apps"></i>
+            <span class="sidebar-tooltip">Apps</span>
+        </div>
+        <div class="sidebar-icon" data-page="p">
+            <i class="icon-proxy"></i>
+            <span class="sidebar-tooltip">Proxy</span>
+        </div>
+        <div class="sidebar-icon" data-page="s">
+            <i class="icon-settings"></i>
+            <span class="sidebar-tooltip">Settings</span>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <div class="hero">
+            <h1>midnight portal</h1>
+            <p>your sleek gateway to unblocked content</p>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <i class="icon-search"></i>
+            <input type="text" placeholder="search for games, apps, or websites..." id="search-input">
+            <button id="search-button">search</button>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="flex" style="gap: 24px;">
+            <!-- Left Column -->
+            <div style="flex: 2;">
+                <!-- announcements -->
+                <div class="card">
+                    <h2><i class="icon-announcement"></i> latest announcements</h2>
+                    <div class="announcements">
+                        <div class="announcement-item">
+                            <h3>new games added</h3>
+                            <p>we've added 10 new games to our collection. check them out in the games section!</p>
+                            <div class="announcement-date">august 18, 2025</div>
+                        </div>
+                        <div class="announcement-item">
+                            <h3>proxy updates</h3>
+                            <p>our proxy service has been updated with better performance and more reliable connections.</p>
+                            <div class="announcement-date">august 15, 2025</div>
+                        </div>
+                        <div class="announcement-item">
+                            <h3>new theme options</h3>
+                            <p>you can now customize your experience with new accent colors in the settings.</p>
+                            <div class="announcement-date">august 10, 2025</div>
+                        </div>
+                        <div class="announcement-item">
+                            <h3>mobile support</h3>
+                            <p>midnight portal now works seamlessly on mobile devices. try it out!</p>
+                            <div class="announcement-date">august 5, 2025</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- partners -->
+                <div class="card">
+                    <h2><i class="icon-partners"></i> our partners</h2>
+                    <div class="partners-grid">
+                        <a href="#" class="partner-logo">partner 1</a>
+                        <a href="#" class="partner-logo">partner 2</a>
+                        <a href="#" class="partner-logo">partner 3</a>
+                        <a href="#" class="partner-logo">partner 4</a>
+                        <a href="#" class="partner-logo">partner 5</a>
+                        <a href="#" class="partner-logo">partner 6</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div style="flex: 1;">
+                <!-- shortcuts -->
+                <div class="card">
+                    <h2><i class="icon-shortcuts"></i> quick access</h2>
+                    <div class="shortcuts">
+                        <a href="../../games/v2/g.html" class="shortcut">
+                            <i class="icon-games"></i>
+                            <span>popular games</span>
+                        </a>
+                        <a href="../../apps/v2/a.html" class="shortcut">
+                            <i class="icon-apps"></i>
+                            <span>utilities</span>
+                        </a>
+                        <a href="../../proxy/v2/p.html" class="shortcut">
+                            <i class="icon-proxy"></i>
+                            <span>quick proxy</span>
+                        </a>
+                        <a href="../../settings/v2/s.html" class="shortcut">
+                            <i class="icon-settings"></i>
+                            <span>settings</span>
+                        </a>
+                    </div>
+                    
+                    <div class="quick-stats">
+                        <div class="stat-card">
+                            <div class="stat-value">150+</div>
+                            <div class="stat-label">games</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">apps</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recently Visited -->
+                <div class="card">
+                    <h2><i class="icon-shortcuts"></i> Recently Visited</h2>
+                    <div class="announcements" style="max-height: 200px;">
+                        <div class="announcement-item">
+                            <h3>Pixel Racer</h3>
+                            <div class="announcement-date">Games • 2 hours ago</div>
+                        </div>
+                        <div class="announcement-item">
+                            <h3>File Converter</h3>
+                            <div class="announcement-date">Apps • Yesterday</div>
+                        </div>
+                        <div class="announcement-item">
+                            <h3>Proxy Settings</h3>
+                            <div class="announcement-date">Settings • 2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common.js"></script>
+    <script src="../../assets/rain.js"></script>
+    <script src="../../assets/sidebar.js"></script>
+    <script src="../../assets/search.js"></script>
+    <script>
+        // Homepage specific JavaScript
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch(this.value);
+            }
+        });
+        
+        document.getElementById('search-button').addEventListener('click', function() {
+            performSearch(document.getElementById('search-input').value);
+        });
+        
+        // Make shortcuts clickable
+        document.querySelectorAll('.shortcut').forEach(shortcut => {
+            shortcut.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                if (page) {
+                    const targetPage = page === 'home' ? 'index.html' : `${page}.html`;
+                    
+                    // Fade out
+                    document.body.classList.add('page-transition');
+                    
+                    // Navigate after transition
+                    setTimeout(() => {
+                        window.location.href = `../../${page}/${page === 'home' ? 'index' : page}.html`;
+                    }, 300);
+                }
+            });
+        });
+        
+        // Make recently visited items clickable
+        document.querySelectorAll('.announcement-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('h3').textContent;
+                const category = this.querySelector('.announcement-date').textContent.split('•')[0].trim();
+                
+                if (category === 'Games') {
+                    window.location.href = '../../g/g.html';
+                } else if (category === 'Apps') {
+                    window.location.href = '../../a/a.html';
+                } else if (category === 'Settings') {
+                    window.location.href = '../../s/s.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
