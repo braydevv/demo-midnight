@@ -1,0 +1,41 @@
+/* Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. */
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 900;
+  src: url("../fonts/fa-solid-900.woff2") format("woff2");
+}
+
+.fa,
+.fas {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+.fa-home:before {
+  content: "\f015";
+}
+
+.fa-gamepad:before {
+  content: "\f11b";
+}
+
+.fa-th:before {
+  content: "\f00a";
+}
+
+.fa-globe:before {
+  content: "\f0ac";
+}
+
+.fa-cog:before {
+  content: "\f013";
+}
+
+.fa-search:before {
+  content: "\f002";
+}
+
+.fa-play:before {
+  content: "\f04b";
+}
