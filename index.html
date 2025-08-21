@@ -1,495 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>midnight portal</title>
-    <link rel="stylesheet" href="../../common.css">
-    <link rel="stylesheet" href="../../assets/icons.css">
-    <link rel="stylesheet" href="../../assets/rain.css">
-    <link rel="stylesheet" href="../../assets/sidebar.css">
-    <style>
-        /* Homepage V2 specific styles */
-        :root {
-            --card-radius: 16px;
-            --gradient-bg: linear-gradient(135deg, #111111, #0a0a0a);
-        }
-        
-        body {
-            background: var(--gradient-bg);
-        }
-        
-        .hero {
-            text-align: center;
-            margin: 20px 0 40px;
-            position: relative;
-        }
-        
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(to right, #fff, #0066ff, #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-        }
-        
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .hero::after {
-            content: "";
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: var(--accent-blue);
-            filter: blur(120px);
-            opacity: 0.2;
-            top: -50px;
-            left: calc(50% - 100px);
-            z-index: -1;
-        }
-        
-        .search-bar {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 8px 8px 8px 20px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .search-bar:focus-within {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 2px var(--accent-blue-glow);
-        }
-        
-        .search-bar input {
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-size: 16px;
-            width: 100%;
-            outline: none;
-            padding: 8px 0;
-        }
-        
-        .search-bar i {
-            color: var(--accent-blue);
-            margin-right: 12px;
-            font-size: 18px;
-        }
-        
-        .search-bar button {
-            background-color: var(--accent-blue);
-            color: white;
-            border: none;
-            border-radius: 24px;
-            padding: 10px 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .search-bar button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
-        }
-        
-        .card {
-            background-color: rgba(26, 26, 26, 0.6);
-            border-radius: var(--card-radius);
-            padding: 24px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .card:hover::before {
-            opacity: 1;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(0, 102, 255, 0.3);
-        }
-        
-        .card h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .card h2 i {
-            margin-right: 10px;
-            color: var(--accent-blue);
-            font-size: 1.2em;
-        }
-        
-        .announcements {
-            max-height: 320px;
-            overflow-y: auto;
-            padding-right: 10px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-blue) rgba(255, 255, 255, 0.1);
-        }
-        
-        .announcement-item {
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .announcement-item:hover {
-            background-color: rgba(0, 102, 255, 0.05);
-            border-color: rgba(0, 102, 255, 0.2);
-        }
-        
-        .announcement-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: var(--accent-blue);
-        }
-        
-        .announcement-date {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 8px;
-        }
-        
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 20px;
-        }
-        
-        .partner-logo {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-        
-        .partner-logo:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-        
-        .shortcuts {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        
-        .shortcut {
-            text-align: center;
-            padding: 20px;
-            border-radius: 16px;
-            background-color: rgba(255, 255, 255, 0.03);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .shortcut:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-color: var(--accent-blue);
-            background-color: rgba(0, 102, 255, 0.05);
-        }
-        
-        .shortcut i {
-            font-size: 28px;
-            margin-bottom: 12px;
-            color: var(--accent-blue);
-        }
-        
-        .shortcut span {
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .quick-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-top: 24px;
-        }
-        
-        .stat-card {
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent-blue);
-            margin-bottom: 4px;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        /* Custom scrollbar */
-        .announcements::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .announcements::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-        
-        .announcements::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
-            border-radius: 10px;
-        }
-        
-        .announcements::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-blue);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>midnight</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/fontawesome.css">
+  <script src="js/particles.js" defer></script>
+  <script src="js/icons.js" defer></script>
+  <script src="js/sidebar.js" defer></script>
+  <style>
+    /* Version 3 specific styles */
+    body {
+      background-color: #0a0a0a;
+      background-image: radial-gradient(circle at top right, rgba(0, 102, 255, 0.1), transparent 70%);
+    }
+    
+    h1, h2, h3, h4, h5, h6, p, a, span, div {
+      text-transform: lowercase;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      letter-spacing: -1px;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--midnight-blue);
+      border-radius: 3px;
+    }
+    
+    .sidebar {
+      background-color: rgba(15, 15, 15, 0.95);
+      box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .sidebar-right .sidebar {
+      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .nav-item {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .nav-item:hover {
+      transform: translateY(-5px) scale(1.1);
+    }
+    
+    .nav-item .tooltip {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .search-bar {
+      background-color: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .search-bar:focus-within {
+      transform: scale(1.02);
+    }
+    
+    .announcement-card {
+      background-color: rgba(25, 25, 25, 0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      border-left: none;
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .announcement-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--midnight-blue), transparent);
+    }
+    
+    .announcement {
+      transition: all 0.3s ease;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .announcement:hover {
+      background-color: rgba(40, 40, 40, 0.5);
+    }
+    
+    .partners-section h2 {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+    
+    .partners-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50%;
+      height: 2px;
+      background: var(--midnight-blue);
+    }
+    
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 20px;
+    }
+    
+    .partner-logo {
+      background-color: rgba(25, 25, 25, 0.8);
+      backdrop-filter: blur(5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-radius: 15px;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+    
+    .partner-logo:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .partner-logo img {
+      max-width: 100%;
+      max-height: 60px;
+      border-radius: 10px;
+    }
+    
+    .card-grid {
+      gap: 25px;
+    }
+    
+    .card-v3 {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card-v3:hover {
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+    
+    .card-v3 .card-image {
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card-v3:hover .card-image {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+    
+    .page-transition {
+      animation: slideUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Custom scrollbar for announcements */
+    .announcement-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .announcement-card::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    
+    .announcement-card::-webkit-scrollbar-thumb {
+      background: rgba(0, 102, 255, 0.3);
+      border-radius: 10px;
+    }
+    
+    .announcement-card::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 102, 255, 0.5);
+    }
+  </style>
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-icon" data-page="home">
-            <i class="icon-home"></i>
-            <span class="sidebar-tooltip">Home</span>
-        </div>
-        <div class="sidebar-icon" data-page="g">
-            <i class="icon-games"></i>
-            <span class="sidebar-tooltip">Games</span>
-        </div>
-        <div class="sidebar-icon" data-page="a">
-            <i class="icon-apps"></i>
-            <span class="sidebar-tooltip">Apps</span>
-        </div>
-        <div class="sidebar-icon" data-page="p">
-            <i class="icon-proxy"></i>
-            <span class="sidebar-tooltip">Proxy</span>
-        </div>
-        <div class="sidebar-icon" data-page="s">
-            <i class="icon-settings"></i>
-            <span class="sidebar-tooltip">Settings</span>
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html" id="logo">
+        <i class="fa fa-globe"></i>
+      </a>
     </div>
     
-    <!-- Main Content -->
-    <div class="content">
-        <div class="hero">
-            <h1>midnight portal</h1>
-            <p>your sleek gateway to unblocked content</p>
-        </div>
-        
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <i class="icon-search"></i>
-            <input type="text" placeholder="search for games, apps, or websites..." id="search-input">
-            <button id="search-button">search</button>
-        </div>
-        
-        <!-- Main Grid -->
-        <div class="flex" style="gap: 24px;">
-            <!-- Left Column -->
-            <div style="flex: 2;">
-                <!-- announcements -->
-                <div class="card">
-                    <h2><i class="icon-announcement"></i> latest announcements</h2>
-                    <div class="announcements">
-                        <div class="announcement-item">
-                            <h3>new games added</h3>
-                            <p>we've added 10 new games to our collection. check them out in the games section!</p>
-                            <div class="announcement-date">august 18, 2025</div>
-                        </div>
-                        <div class="announcement-item">
-                            <h3>proxy updates</h3>
-                            <p>our proxy service has been updated with better performance and more reliable connections.</p>
-                            <div class="announcement-date">august 15, 2025</div>
-                        </div>
-                        <div class="announcement-item">
-                            <h3>new theme options</h3>
-                            <p>you can now customize your experience with new accent colors in the settings.</p>
-                            <div class="announcement-date">august 10, 2025</div>
-                        </div>
-                        <div class="announcement-item">
-                            <h3>mobile support</h3>
-                            <p>midnight portal now works seamlessly on mobile devices. try it out!</p>
-                            <div class="announcement-date">august 5, 2025</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- partners -->
-                <div class="card">
-                    <h2><i class="icon-partners"></i> our partners</h2>
-                    <div class="partners-grid">
-                        <a href="#" class="partner-logo">partner 1</a>
-                        <a href="#" class="partner-logo">partner 2</a>
-                        <a href="#" class="partner-logo">partner 3</a>
-                        <a href="#" class="partner-logo">partner 4</a>
-                        <a href="#" class="partner-logo">partner 5</a>
-                        <a href="#" class="partner-logo">partner 6</a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Column -->
-            <div style="flex: 1;">
-                <!-- shortcuts -->
-                <div class="card">
-                    <h2><i class="icon-shortcuts"></i> quick access</h2>
-                    <div class="shortcuts">
-                        <a href="../../games/v2/g.html" class="shortcut">
-                            <i class="icon-games"></i>
-                            <span>popular games</span>
-                        </a>
-                        <a href="../../apps/v2/a.html" class="shortcut">
-                            <i class="icon-apps"></i>
-                            <span>utilities</span>
-                        </a>
-                        <a href="../../proxy/v2/p.html" class="shortcut">
-                            <i class="icon-proxy"></i>
-                            <span>quick proxy</span>
-                        </a>
-                        <a href="../../settings/v2/s.html" class="shortcut">
-                            <i class="icon-settings"></i>
-                            <span>settings</span>
-                        </a>
-                    </div>
-                    
-                    <div class="quick-stats">
-                        <div class="stat-card">
-                            <div class="stat-value">150+</div>
-                            <div class="stat-label">games</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">50+</div>
-                            <div class="stat-label">apps</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Recently Visited -->
-                <div class="card">
-                    <h2><i class="icon-shortcuts"></i> Recently Visited</h2>
-                    <div class="announcements" style="max-height: 200px;">
-                        <div class="announcement-item">
-                            <h3>Pixel Racer</h3>
-                            <div class="announcement-date">Games • 2 hours ago</div>
-                        </div>
-                        <div class="announcement-item">
-                            <h3>File Converter</h3>
-                            <div class="announcement-date">Apps • Yesterday</div>
-                        </div>
-                        <div class="announcement-item">
-                            <h3>Proxy Settings</h3>
-                            <div class="announcement-date">Settings • 2 days ago</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="sidebar-nav">
+      <a href="index.html" class="nav-item active" id="nav-home">
+        <i class="fa fa-home"></i>
+        <span class="tooltip">home</span>
+      </a>
+      
+      <a href="g.html" class="nav-item" id="nav-games">
+        <i class="fa fa-gamepad"></i>
+        <span class="tooltip">games</span>
+      </a>
+      
+      <a href="a.html" class="nav-item" id="nav-apps">
+        <i class="fa fa-th"></i>
+        <span class="tooltip">apps</span>
+      </a>
+      
+      <a href="p.html" class="nav-item" id="nav-proxy">
+        <i class="fa fa-globe"></i>
+        <span class="tooltip">proxy</span>
+      </a>
     </div>
-
-    <script src="../../common.js"></script>
-    <script src="../../assets/rain.js"></script>
-    <script src="../../assets/sidebar.js"></script>
-    <script src="../../assets/search.js"></script>
-    <script>
-        // Homepage specific JavaScript
-        document.getElementById('search-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch(this.value);
+    
+    <div class="sidebar-bottom">
+      <a href="s.html" class="nav-item" id="nav-settings">
+        <i class="fa fa-cog"></i>
+        <span class="tooltip">settings</span>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="container page-transition">
+    <h1>midnight</h1>
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <i class="fa fa-search" style="margin-right: 10px; color: #aaa;"></i>
+      <input type="text" placeholder="search games, apps, or enter a url..." id="search-input">
+    </div>
+    
+    <!-- Announcements -->
+    <div class="announcement-card">
+      <h2>latest announcements</h2>
+      
+      <div class="announcement">
+        <div class="announcement-title">new games added!</div>
+        <div class="announcement-date">august 18, 2025</div>
+        <div class="announcement-content">
+          we've added 10 new games to our collection. check them out in the games section!
+        </div>
+      </div>
+      
+      <div class="announcement">
+        <div class="announcement-title">proxy updates</div>
+        <div class="announcement-date">august 15, 2025</div>
+        <div class="announcement-content">
+          our proxy service has been updated with improved speed and reliability. enjoy seamless browsing!
+        </div>
+      </div>
+      
+      <div class="announcement">
+        <div class="announcement-title">new ui released</div>
+        <div class="announcement-date">august 10, 2025</div>
+        <div class="announcement-content">
+          we're excited to announce our new ui with improved visuals and performance. let us know what you think!
+        </div>
+      </div>
+      
+      <div class="announcement">
+        <div class="announcement-title">maintenance notice</div>
+        <div class="announcement-date">august 5, 2025</div>
+        <div class="announcement-content">
+          scheduled maintenance will occur on august 25th from 2-4 am utc. some services may be temporarily unavailable.
+        </div>
+      </div>
+      
+      <div class="announcement">
+        <div class="announcement-title">new particle effects</div>
+        <div class="announcement-date">august 1, 2025</div>
+        <div class="announcement-content">
+          we've added new particle effects to the portal! check out the settings page to try rain, snow, and stars.
+        </div>
+      </div>
+      
+      <div class="announcement">
+        <div class="announcement-title">theme updates</div>
+        <div class="announcement-date">july 28, 2025</div>
+        <div class="announcement-content">
+          you can now customize the portal with different accent colors and background themes. visit settings to try them out!
+        </div>
+      </div>
+    </div>
+    
+    <!-- Partners Section -->
+    <div class="partners-section">
+      <h2>our partners</h2>
+      
+      <div class="partners-grid">
+        <a href="https://example.com/partner1" class="partner-logo" target="_blank">
+          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P1" alt="Partner 1">
+        </a>
+        
+        <a href="https://example.com/partner2" class="partner-logo" target="_blank">
+          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P2" alt="Partner 2">
+        </a>
+        
+        <a href="https://example.com/partner3" class="partner-logo" target="_blank">
+          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P3" alt="Partner 3">
+        </a>
+        
+        <a href="https://example.com/partner4" class="partner-logo" target="_blank">
+          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P4" alt="Partner 4">
+        </a>
+        
+        <a href="https://example.com/partner5" class="partner-logo" target="_blank">
+          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P5" alt="Partner 5">
+        </a>
+        
+        <a href="https://example.com/partner6" class="partner-logo" target="_blank">
+          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P6" alt="Partner 6">
+        </a>
+      </div>
+    </div>
+    
+    <!-- Quick Access -->
+    <div class="card-grid">
+      <div class="card-v3">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Popular+Game" alt="Popular Game" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play popular game">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">popular game</div>
+          <div class="card-description">most played game this week</div>
+        </div>
+      </div>
+      
+      <div class="card-v3">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=New+App" alt="New App" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="open new app">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">new app</div>
+          <div class="card-description">latest addition to our collection</div>
+        </div>
+      </div>
+      
+      <div class="card-v3">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Quick+Proxy" alt="Quick Proxy" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="use quick proxy">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">quick proxy</div>
+          <div class="card-description">fast access to our proxy service</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Initialize search functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('search-input');
+      
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          const query = searchInput.value.trim().toLowerCase();
+          
+          if (query) {
+            // Check if it's a URL
+            if (query.includes('.') || query.startsWith('http')) {
+              // It's likely a URL, redirect to proxy
+              window.location.href = 'p.html?url=' + encodeURIComponent(query);
+            } else {
+              // It's a search query, redirect to games/apps with search parameter
+              window.location.href = 'g.html?search=' + encodeURIComponent(query);
             }
-        });
-        
-        document.getElementById('search-button').addEventListener('click', function() {
-            performSearch(document.getElementById('search-input').value);
-        });
-        
-        // Make shortcuts clickable
-        document.querySelectorAll('.shortcut').forEach(shortcut => {
-            shortcut.addEventListener('click', function() {
-                const page = this.getAttribute('data-page');
-                if (page) {
-                    const targetPage = page === 'home' ? 'index.html' : `${page}.html`;
-                    
-                    // Fade out
-                    document.body.classList.add('page-transition');
-                    
-                    // Navigate after transition
-                    setTimeout(() => {
-                        window.location.href = `../../${page}/${page === 'home' ? 'index' : page}.html`;
-                    }, 300);
-                }
-            });
-        });
-        
-        // Make recently visited items clickable
-        document.querySelectorAll('.announcement-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const title = this.querySelector('h3').textContent;
-                const category = this.querySelector('.announcement-date').textContent.split('•')[0].trim();
-                
-                if (category === 'Games') {
-                    window.location.href = '../../g/g.html';
-                } else if (category === 'Apps') {
-                    window.location.href = '../../a/a.html';
-                } else if (category === 'Settings') {
-                    window.location.href = '../../s/s.html';
-                }
-            });
-        });
-    </script>
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
