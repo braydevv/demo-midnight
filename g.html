@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,164 +77,26 @@
       transform: scale(1.02);
     }
     
-    /* ENHANCED: Improved card grid layout with larger spacing */
     .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 35px;
-      margin-top: 40px;
+      gap: 25px;
     }
     
-    /* ENHANCED: Improved card styling */
     .card-v3 {
-      position: relative;
-      background-color: rgba(20, 20, 20, 0.8);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
     }
     
     .card-v3:hover {
-      transform: translateY(-15px) scale(1.03);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 102, 255, 0.3);
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     }
     
-    /* ENHANCED: Improved card image container */
-    .card-image-container {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%; /* 16:9 aspect ratio */
-      overflow: hidden;
-    }
-    
-    /* ENHANCED: Improved card image styling */
     .card-v3 .card-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
     .card-v3:hover .card-image {
-      transform: scale(1.08);
+      transform: scale(1.05);
       filter: brightness(1.1);
-    }
-    
-    /* ENHANCED: Improved play button */
-    .card-v3 .play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      width: 60px;
-      height: 60px;
-      background-color: rgba(0, 102, 255, 0.8);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 24px;
-      opacity: 0;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 2;
-      box-shadow: 0 0 20px rgba(0, 102, 255, 0.5);
-    }
-    
-    .card-v3:hover .play-button {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    
-    .card-v3 .play-button:hover {
-      background-color: rgba(0, 102, 255, 1);
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-    
-    /* ENHANCED: Improved card content */
-    .card-v3 .card-content {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-    
-    /* ENHANCED: Improved card title */
-    .card-v3 .card-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--midnight-white);
-      letter-spacing: -0.5px;
-    }
-    
-    /* ENHANCED: Added subtitle styling */
-    .card-v3 .card-subtitle {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-    
-    /* ENHANCED: Improved card description */
-    .card-v3 .card-description {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.5);
-      line-height: 1.5;
-      margin-bottom: 15px;
-      flex-grow: 1;
-    }
-    
-    /* ENHANCED: Added game info section */
-    .card-v3 .game-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: auto;
-      padding-top: 15px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    /* ENHANCED: Added game stats */
-    .card-v3 .game-stats {
-      display: flex;
-      gap: 15px;
-    }
-    
-    .card-v3 .stat {
-      display: flex;
-      align-items: center;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.85rem;
-    }
-    
-    .card-v3 .stat i {
-      margin-right: 5px;
-      font-size: 0.8rem;
-    }
-    
-    /* ENHANCED: Added game tags */
-    .card-v3 .game-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 15px;
-    }
-    
-    .card-v3 .game-tag {
-      background-color: rgba(0, 102, 255, 0.15);
-      color: rgba(255, 255, 255, 0.7);
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
     }
     
     .page-transition {
@@ -295,108 +156,6 @@
       color: #aaa;
       font-size: 1.2rem;
       display: none;
-    }
-    
-    /* ENHANCED: Added featured game banner */
-    .featured-game {
-      position: relative;
-      width: 100%;
-      height: 300px;
-      margin-bottom: 40px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    }
-    
-    .featured-game img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.7s ease;
-    }
-    
-    .featured-game:hover img {
-      transform: scale(1.05);
-    }
-    
-    .featured-game-content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 30px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-      color: white;
-    }
-    
-    .featured-game-title {
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      letter-spacing: -1px;
-    }
-    
-    .featured-game-description {
-      font-size: 1rem;
-      margin-bottom: 15px;
-      max-width: 600px;
-      line-height: 1.5;
-    }
-    
-    .featured-game-button {
-      display: inline-flex;
-      align-items: center;
-      background-color: rgba(0, 102, 255, 0.8);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-weight: 700;
-      transition: all 0.3s ease;
-    }
-    
-    .featured-game-button:hover {
-      background-color: rgba(0, 102, 255, 1);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-    
-    .featured-game-button i {
-      margin-right: 8px;
-    }
-    
-    /* ENHANCED: Added game rating */
-    .game-rating {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      z-index: 2;
-    }
-    
-    .game-rating i {
-      color: gold;
-      margin-right: 5px;
-    }
-    
-    /* ENHANCED: Added new game badge */
-    .new-badge {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background-color: rgba(255, 59, 48, 0.9);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      z-index: 2;
     }
   </style>
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
@@ -462,18 +221,6 @@
       <div class="category-filter" data-category="platform">platform</div>
     </div>
     
-    <!-- ENHANCED: Added Featured Game -->
-    <div class="featured-game">
-      <img src="https://cdn.akamai.steamstatic.com/steam/apps/1782210/header.jpg" alt="Featured Game">
-      <div class="featured-game-content">
-        <div class="featured-game-title">fortnite</div>
-        <div class="featured-game-description">battle royale game where 100 players fight to be the last one standing. build, break, and blast your way to a victory royale!</div>
-        <a href="#" class="featured-game-button" target="_blank">
-          <i class="fa fa-play"></i> play now
-        </a>
-      </div>
-    </div>
-    
     <!-- No Results Message -->
     <div class="no-results">
       <p>no games found matching your search</p>
@@ -482,440 +229,182 @@
     <!-- Games Grid -->
     <div class="card-grid">
       <!-- Row 1 -->
-      <div class="card-v3" data-title="10 minutes til dawn" data-categories="action,strategy">
-        <div class="card-image-container">
-          <img src="https://i.ytimg.com/vi/McTRpfgP3CU/maxresdefault.jpg" alt="10 Minutes Til Dawn" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.8</div>
-          <div class="new-badge">new</div>
-          <a href="/g/10-minutes-til-dawn.html" class="play-button" target="_blank" title="play 10 minutes til dawn">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
-  <a href="/midnight/g/10-minutes-till-dawn.html" target="_blank" style="text-decoration: none; color: inherit;">
-  <div class="card-content">
-    <div class="card-title">10 minutes till dawn</div>
-    <div class="card-subtitle">survival roguelite</div>
-    <div class="game-tags">
-      <span class="game-tag">action</span>
-      <span class="game-tag">strategy</span>
-    </div>
-    <div class="card-description">
-      survive for 10 minutes against endless waves of eldritch horrors. upgrade your weapons, choose powerful abilities, and fight against the darkness in this intense bullet-hell roguelite shooter.
-    </div>
-    <div class="game-info">
-      <div class="game-stats">
-        <div class="stat"><i class="fa fa-user"></i> 0k</div>
-        <div class="stat"><i class="fa fa-thumbs-up"></i> 89%</div>
-      </div>
-    </div>
-  </div>
-</a>
-
-      
-      <div class="card-v3" data-title="1v1 LOL" data-categories="action,runner">
-        <div class="card-image-container">
-          <img src="https://imgs.crazygames.com/games/1v1-lol/cover-1585728351086.png?metadata=none&quality=100&width=1200&height=630&fit=crop" alt="Slope" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.5</div>
-          <a href="/midnight/g/1v1-lol.html" class="play-button" target="_blank" title="play slope">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+      <div class="card-v3" data-title="block blast" data-categories="puzzle,strategy">
+        <img src="https://balancy.co/wp-content/uploads/2025/03/Block-Blast.png" alt="Game 1" class="card-image">
+        <a href="/g/block-blast.html" class="play-button" target="_blank" title="play block blast">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
-          <div class="card-title">1v1 LOL</div>
-          <div class="card-subtitle">fortnite ripoff</div>
-          <div class="game-tags">
-            <span class="game-tag">action</span>
-            <span class="game-tag">multiplayer</span>
-          </div>
-          <div class="card-description">
-            build, shoot, and outplay your opponents in fast-paced 1v1 battles.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 0k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 92%</div>
-            </div>
-          </div>
+          <div class="card-title">block blast</div>
+          <div class="card-description">puzzle game</div>
+        </div>
+      </div>
+      
+      <div class="card-v3" data-title="slope" data-categories="action,runner">
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+2" alt="Game 2" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play slope">
+          <i class="fa fa-play"></i>
+        </a>
+        <div class="card-content">
+          <div class="card-title">slope</div>
+          <div class="card-description">3d running game</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="subway surfers" data-categories="runner,action">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/NVJuKheL9D0uzQf-QNTBtcC2K7tOeAG-KZejQNnrDrTTcUMqgTHp9LfcBPg1pUxf-Pc" alt="Subway Surfers" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.7</div>
-          <a href="#" class="play-button" target="_blank" title="play subway surfers">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+3" alt="Game 3" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play subway surfers">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">subway surfers</div>
-          <div class="card-subtitle">endless runner</div>
-          <div class="game-tags">
-            <span class="game-tag">runner</span>
-            <span class="game-tag">action</span>
-          </div>
-          <div class="card-description">
-            dash through the subway as you escape from the grumpy inspector and his dog. dodge oncoming trains, jump over obstacles, and collect coins while surfing on hoverboards. unlock new characters and beat your high score!
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 87k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 96%</div>
-            </div>
-          </div>
+          <div class="card-description">endless runner</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="minecraft" data-categories="strategy,multiplayer">
-        <div class="card-image-container">
-          <img src="https://cdn.vox-cdn.com/thumbor/l_oIYQZI9PYtbEgJCcL15BpNzPQ=/0x0:1920x1080/1400x933/filters:focal(807x387:1113x693):no_upscale()/cdn.vox-cdn.com/uploads/chorus_image/image/65052746/Minecraft.0.png" alt="Minecraft" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.9</div>
-          <a href="#" class="play-button" target="_blank" title="play minecraft">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+4" alt="Game 4" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play minecraft">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">minecraft</div>
-          <div class="card-subtitle">building & survival</div>
-          <div class="game-tags">
-            <span class="game-tag">strategy</span>
-            <span class="game-tag">multiplayer</span>
-          </div>
-          <div class="card-description">
-            explore infinite worlds and build everything from the simplest of homes to the grandest of castles. play in creative mode with unlimited resources or mine deep into the world in survival mode, crafting weapons and armor to fend off dangerous mobs.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 120k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 99%</div>
-            </div>
-          </div>
+          <div class="card-description">building & survival</div>
         </div>
       </div>
       
       <!-- Row 2 -->
       <div class="card-v3" data-title="among us" data-categories="multiplayer,strategy">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/8ddL1kuoNUB5vUvgDVjYY3_6HwQcrg1K2fd_R8soD-e2QYj8fT9cfhfh3G0hnSruLKec" alt="Among Us" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.6</div>
-          <a href="#" class="play-button" target="_blank" title="play among us">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+5" alt="Game 5" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play among us">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">among us</div>
-          <div class="card-subtitle">social deduction</div>
-          <div class="game-tags">
-            <span class="game-tag">multiplayer</span>
-            <span class="game-tag">strategy</span>
-          </div>
-          <div class="card-description">
-            an online multiplayer social deduction game. work together on a spaceship but beware of impostors who want to kill everyone! complete tasks to win as a crewmate or sabotage the ship and eliminate players as an impostor.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 65k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 94%</div>
-            </div>
-          </div>
+          <div class="card-description">social deduction</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="flappy bird" data-categories="arcade">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/a-/AOh14GiNYvbJQh8Kf8rMmMbgZ_JN9vYEL0Tg03RBP54=s200" alt="Flappy Bird" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.2</div>
-          <a href="#" class="play-button" target="_blank" title="play flappy bird">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+6" alt="Game 6" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play flappy bird">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">flappy bird</div>
-          <div class="card-subtitle">arcade game</div>
-          <div class="game-tags">
-            <span class="game-tag">arcade</span>
-          </div>
-          <div class="card-description">
-            guide a bird through a series of pipes without touching them. tap to make the bird fly upward; gravity will bring it down. simple to play but incredibly challenging to master - can you beat your high score?
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 38k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 89%</div>
-            </div>
-          </div>
+          <div class="card-description">arcade game</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="tetris" data-categories="puzzle,arcade">
-        <div class="card-image-container">
-          <img src="https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x272:812x496)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e89caa26d2ea14_original.0.png" alt="Tetris" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.8</div>
-          <a href="#" class="play-button" target="_blank" title="play tetris">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+7" alt="Game 7" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play tetris">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">tetris</div>
-          <div class="card-subtitle">puzzle game</div>
-          <div class="game-tags">
-            <span class="game-tag">puzzle</span>
-            <span class="game-tag">arcade</span>
-          </div>
-          <div class="card-description">
-            the classic tile-matching puzzle game. arrange falling tetrominoes to create complete horizontal lines without gaps. clear multiple lines at once for bonus points and prevent the blocks from stacking to the top!
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 52k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 97%</div>
-            </div>
-          </div>
+          <div class="card-description">puzzle game</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="cookie clicker" data-categories="strategy">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/OssE3ON9WsLZedOF39UCgtIHcRYfV0OqQS9Y8GBnwdKRoAJ4nPDzaH8Fq8huhvGxIA" alt="Cookie Clicker" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.4</div>
-          <a href="#" class="play-button" target="_blank" title="play cookie clicker">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+8" alt="Game 8" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play cookie clicker">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">cookie clicker</div>
-          <div class="card-subtitle">idle game</div>
-          <div class="game-tags">
-            <span class="game-tag">strategy</span>
-            <span class="game-tag">idle</span>
-          </div>
-          <div class="card-description">
-            start by clicking a cookie to gain more cookies. use cookies to purchase upgrades and buildings that automatically produce cookies. discover hidden achievements and upgrades in this addictive idle game that never ends!
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 31k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 91%</div>
-            </div>
-          </div>
+          <div class="card-description">idle game</div>
         </div>
       </div>
       
       <!-- Row 3 -->
       <div class="card-v3" data-title="geometry dash" data-categories="action,arcade">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/ixHXzBWPmmLAsxI7Hn6ImLgIxOK1ACxJzNzKTU_IYrCwJWUD1XuYMP-LJBCDGhHOBOI" alt="Geometry Dash" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.7</div>
-          <a href="#" class="play-button" target="_blank" title="play geometry dash">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+9" alt="Game 9" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play geometry dash">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">geometry dash</div>
-          <div class="card-subtitle">rhythm-based action</div>
-          <div class="game-tags">
-            <span class="game-tag">action</span>
-            <span class="game-tag">arcade</span>
-          </div>
-          <div class="card-description">
-            jump, fly and flip your way through dangerous passages and spiky obstacles in this rhythm-based action platformer. features multiple levels with unique music, challenging gameplay, and a level editor to create and share your own levels.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 45k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 93%</div>
-            </div>
-          </div>
+          <div class="card-description">rhythm-based action</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="wordle" data-categories="puzzle">
-        <div class="card-image-container">
-          <img src="https://cdn.vox-cdn.com/thumbor/QDPHv-Q5BoXKT5LXHt6pW_bEbxI=/0x0:1080x1080/1200x800/filters:focal(454x454:626x626)/cdn.vox-cdn.com/uploads/chorus_image/image/70565761/wordle.0.jpg" alt="Wordle" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.6</div>
-          <a href="#" class="play-button" target="_blank" title="play wordle">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+10" alt="Game 10" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play wordle">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">wordle</div>
-          <div class="card-subtitle">word puzzle</div>
-          <div class="game-tags">
-            <span class="game-tag">puzzle</span>
-            <span class="game-tag">word</span>
-          </div>
-          <div class="card-description">
-            guess the hidden five-letter word in six tries. after each guess, the color of the tiles changes to show how close your guess was to the word. green means the letter is correct and in the right position, yellow means the letter is in the word but in the wrong position.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 58k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 95%</div>
-            </div>
-          </div>
+          <div class="card-description">word puzzle</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="crossy road" data-categories="arcade">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/2yN4nk0i6GyGcEzZrKtEjLM-XqLzvvv-3-jM9MG5kzYSVoxLRJizN9n9JW9mGZH6XQ" alt="Crossy Road" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.5</div>
-          <a href="#" class="play-button" target="_blank" title="play crossy road">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+11" alt="Game 11" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play crossy road">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">crossy road</div>
-          <div class="card-subtitle">arcade game</div>
-          <div class="game-tags">
-            <span class="game-tag">arcade</span>
-            <span class="game-tag">casual</span>
-          </div>
-          <div class="card-description">
-            why did the chicken cross the road? to collect coins and unlock new characters! hop across busy roads, train tracks, and rivers in this endless arcade hopper. collect over 150 retro-styled characters and compete with friends for the highest score.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 40k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 92%</div>
-            </div>
-          </div>
+          <div class="card-description">arcade game</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="cut the rope" data-categories="puzzle">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/8FNcAyLXtQB_0Ux2ZO8VZoEoihL6a5VMBNf6V2lydRM24hXLnNUdlEup1d5miVjl3JY" alt="Cut the Rope" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.6</div>
-          <a href="#" class="play-button" target="_blank" title="play cut the rope">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+12" alt="Game 12" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play cut the rope">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">cut the rope</div>
-          <div class="card-subtitle">physics puzzle</div>
-          <div class="game-tags">
-            <span class="game-tag">puzzle</span>
-            <span class="game-tag">physics</span>
-          </div>
-          <div class="card-description">
-            feed candy to the adorable monster Om Nom by cutting ropes at just the right moment. solve increasingly challenging puzzles using physics, timing, and strategy across hundreds of levels. collect stars for extra points and unlock new levels!
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 36k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 94%</div>
-            </div>
-          </div>
+          <div class="card-description">physics puzzle</div>
         </div>
       </div>
       
       <!-- Row 4 -->
       <div class="card-v3" data-title="doodle jump" data-categories="platform,arcade">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/V-lvUzA5kK0Xw3wdg8Ct3vfIMXUX5vXYJLUFsEJhLRzhYSsNKYJvXBx5mB9cDs4hzA" alt="Doodle Jump" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.4</div>
-          <a href="#" class="play-button" target="_blank" title="play doodle jump">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+13" alt="Game 13" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play doodle jump">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">doodle jump</div>
-          <div class="card-subtitle">platform game</div>
-          <div class="game-tags">
-            <span class="game-tag">platform</span>
-            <span class="game-tag">arcade</span>
-          </div>
-          <div class="card-description">
-            guide doodle the doodler on a springy journey up, up, up! jump from platform to platform, avoiding obstacles and enemies, while collecting power-ups and jetpacks. tilt to move left and right in this addictive platformer with hand-drawn graphics.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 29k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 90%</div>
-            </div>
-          </div>
+          <div class="card-description">platform game</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="fruit ninja" data-categories="arcade,action">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/iRlGmvtJ524J-gAGdJJchMv-MH-9AKUXg6YNMFokfI3KgZWQyQZjYCEGjrLKs3yvxA" alt="Fruit Ninja" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.5</div>
-          <a href="#" class="play-button" target="_blank" title="play fruit ninja">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+14" alt="Game 14" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play fruit ninja">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">fruit ninja</div>
-          <div class="card-subtitle">arcade game</div>
-          <div class="game-tags">
-            <span class="game-tag">arcade</span>
-            <span class="game-tag">action</span>
-          </div>
-          <div class="card-description">
-            slice and dice your way through waves of fruit while avoiding bombs. swipe your finger across the screen to cut fruit and earn points. play in classic mode, zen mode, or arcade mode and unlock new blades and backgrounds as you progress.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 34k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 93%</div>
-            </div>
-          </div>
+          <div class="card-description">arcade game</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="temple run" data-categories="runner,action">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/onlNBInQHIZtB2rY24BwrEsUUKwE753ao1BAvvhOw2ePEN1IHIUjaR3gvlGgCFR5dA" alt="Temple Run" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.6</div>
-          <a href="#" class="play-button" target="_blank" title="play temple run">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+15" alt="Game 15" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play temple run">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">temple run</div>
-          <div class="card-subtitle">endless runner</div>
-          <div class="game-tags">
-            <span class="game-tag">runner</span>
-            <span class="game-tag">action</span>
-          </div>
-          <div class="card-description">
-            test your reflexes as you race down ancient temple ruins while being chased by demonic monkeys. swipe to jump, slide, and turn as you navigate obstacles, collect coins, and activate power-ups. how far can you run before being caught?
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 47k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 94%</div>
-            </div>
-          </div>
+          <div class="card-description">endless runner</div>
         </div>
       </div>
       
       <div class="card-v3" data-title="angry birds" data-categories="puzzle,strategy">
-        <div class="card-image-container">
-          <img src="https://play-lh.googleusercontent.com/RxJSPhYvZOALQibVg8Y2jX9cuJjl9nwZZCDG1_vzJFGlJlY2-3kpd7ZIIYsJ0Gh12JQ" alt="Angry Birds" class="card-image">
-          <div class="game-rating"><i class="fa fa-star"></i> 4.7</div>
-          <a href="#" class="play-button" target="_blank" title="play angry birds">
-            <i class="fa fa-play"></i>
-          </a>
-        </div>
+        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Game+16" alt="Game 16" class="card-image">
+        <a href="#" class="play-button" target="_blank" title="play angry birds">
+          <i class="fa fa-play"></i>
+        </a>
         <div class="card-content">
           <div class="card-title">angry birds</div>
-          <div class="card-subtitle">physics puzzle</div>
-          <div class="game-tags">
-            <span class="game-tag">puzzle</span>
-            <span class="game-tag">strategy</span>
-          </div>
-          <div class="card-description">
-            use a slingshot to launch birds at the green pigs who have stolen their eggs. destroy all pigs in each level by knocking down their structures. each bird has unique abilities to help you solve increasingly complex puzzles across hundreds of levels.
-          </div>
-          <div class="game-info">
-            <div class="game-stats">
-              <div class="stat"><i class="fa fa-user"></i> 56k</div>
-              <div class="stat"><i class="fa fa-thumbs-up"></i> 95%</div>
-            </div>
-          </div>
+          <div class="card-description">physics puzzle</div>
         </div>
       </div>
     </div>
@@ -985,11 +474,6 @@
           noResults.style.display = 'none';
         }
       }
-      
-      // Add animation delay to cards for staggered entrance
-      gameCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.05}s`;
-      });
     });
   </script>
 </body>
