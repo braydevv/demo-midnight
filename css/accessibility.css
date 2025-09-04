@@ -1,0 +1,114 @@
+/* Midnight - Accessibility CSS */
+
+/* Reduce Motion */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+.reduce-motion .typing-dot {
+  animation: none !important;
+}
+
+.reduce-motion .loading-spinner,
+.reduce-motion .vm-loading-spinner {
+  animation: none !important;
+}
+
+.reduce-motion .logo-dot {
+  animation: none !important;
+}
+
+/* High Contrast */
+.high-contrast {
+  --text-color: #ffffff;
+  --card-bg: rgba(0, 0, 0, 0.9);
+}
+
+.high-contrast .sidebar {
+  background: #000000;
+}
+
+.high-contrast .sidebar-nav-item.active {
+  background: rgba(58, 174, 252, 0.3);
+}
+
+.high-contrast .card,
+.high-contrast .btn,
+.high-contrast .game-card,
+.high-contrast .app-card,
+.high-contrast .movie-card,
+.high-contrast .thread-item,
+.high-contrast .settings-section {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.high-contrast .movie-details,
+.high-contrast .game-details,
+.high-contrast .settings-dropdown,
+.high-contrast .tab-theme-selector,
+.high-contrast .quick-settings-dropdown {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.high-contrast .search-input,
+.high-contrast .message-input,
+.high-contrast .omnibox {
+  background: #000000;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Compact Spacing */
+.compact-spacing {
+  --sidebar-width-collapsed: 50px;
+  --sidebar-width-expanded: 220px;
+}
+
+.compact-spacing .container {
+  padding: 0 10px;
+}
+
+.compact-spacing .header {
+  padding: 15px 0;
+  margin-bottom: 20px;
+}
+
+.compact-spacing .card {
+  padding: 15px;
+}
+
+.compact-spacing .quick-tiles {
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.compact-spacing .games-grid,
+.compact-spacing .apps-grid,
+.compact-spacing .movies-grid {
+  gap: 15px;
+}
+
+.compact-spacing .game-info,
+.compact-spacing .app-info,
+.compact-spacing .movie-info {
+  padding: 10px;
+}
+
+.compact-spacing .settings-section {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.compact-spacing .sidebar-nav-link {
+  padding: 10px 15px;
+}
+
+.compact-spacing .message {
+  margin-bottom: 15px;
+}
+
+.compact-spacing .message-bubble {
+  padding: 10px;
+}
