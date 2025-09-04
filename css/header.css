@@ -1,0 +1,118 @@
+/* Midnight - Header CSS */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin-bottom: 30px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: lowercase;
+}
+
+/* Quick Settings */
+.quick-settings {
+  position: relative;
+}
+
+.quick-settings-toggle {
+  background: var(--card-bg);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.quick-settings-toggle:hover {
+  transform: scale(1.1);
+}
+
+.quick-settings-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 300px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: var(--transition-default);
+  backdrop-filter: blur(10px);
+}
+
+.quick-settings.active .quick-settings-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.quick-settings-section {
+  margin-bottom: 20px;
+}
+
+.quick-settings-section h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.quick-theme-selector,
+.quick-wallpaper-selector {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.quick-theme-item,
+.quick-wallpaper-item {
+  width: 40px;
+  height: 40px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: var(--transition-default);
+  flex-shrink: 0;
+}
+
+.quick-theme-item:hover,
+.quick-wallpaper-item:hover {
+  transform: scale(1.1);
+  border: 1px solid var(--accent-color);
+}
+
+.quick-theme-item.active,
+.quick-wallpaper-item.active {
+  border: 2px solid var(--accent-color);
+}
+
+/* Theme colors */
+.quick-theme-item.theme-deep-blue {
+  background: linear-gradient(135deg, #0a0a0a 0%, #101b2a 100%);
+}
+
+.quick-theme-item.theme-midnight-neon {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0b29 100%);
+}
+
+.quick-theme-item.theme-slate {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1e24 100%);
+}
+
+.quick-theme-item.theme-aqua-haze {
+  background: linear-gradient(135deg, #0a0a0a 0%, #0a2a2a 100%);
+}
