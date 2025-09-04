@@ -6,74 +6,36 @@ class SidebarManager {
   constructor() {
     this.sidebar = document.querySelector('.sidebar');
     this.content = document.querySelector('.content');
-    this.toggle = document.querySelector('.sidebar-toggle');
-    
-    // Load saved state
-    this.expanded = this.loadState();
-    
-    // Initialize sidebar state
-    this.updateSidebarState();
     
     // Set up event listeners
     this.setupEventListeners();
     
     // Set active nav item based on current page
     this.setActiveNavItem();
-  }
-  
-  /**
-   * Load sidebar state from localStorage
-   */
-  loadState() {
-    return localStorage.getItem('midnight_sidebar_expanded') === 'true';
-  }
-  
-  /**
-   * Save sidebar state to localStorage
-   */
-  saveState() {
-    localStorage.setItem('midnight_sidebar_expanded', this.expanded);
-  }
-  
-  /**
-   * Update sidebar visual state
-   */
-  updateSidebarState() {
-    if (this.expanded) {
-      this.sidebar.classList.add('expanded');
-      this.content.classList.add('sidebar-expanded');
-      this.content.classList.add('blurred');
-    } else {
-      this.sidebar.classList.remove('expanded');
-      this.content.classList.remove('sidebar-expanded');
-      this.content.classList.remove('blurred');
-    }
-  }
-  
-  /**
-   * Toggle sidebar expanded state
-   */
-  toggleSidebar() {
-    this.expanded = !this.expanded;
-    this.updateSidebarState();
-    this.saveState();
+    
+    // Initialize popups
+    this.initPopups();
   }
   
   /**
    * Set up event listeners
    */
   setupEventListeners() {
-    // Toggle button click
-    if (this.toggle) {
-      this.toggle.addEventListener('click', () => this.toggleSidebar());
-    }
-    
     // Keyboard shortcut ([ ] or Ctrl+B)
     document.addEventListener('keydown', (e) => {
       if (e.key === ']' || (e.ctrlKey && e.key === 'b')) {
-        this.toggleSidebar();
+        this.sidebar.classList.toggle('force-expanded');
         e.preventDefault();
       }
+    });
+    
+    // Hover effect for sidebar
+    this.sidebar.addEventListener('mouseenter', () => {
+      this.content.classList.add('blurred');
+    });
+    
+    this.sidebar.addEventListener('mouseleave', () => {
+      this.content.classList.remove('blurred');
     });
   }
   
@@ -91,6 +53,67 @@ class SidebarManager {
         item.classList.add('active');
       } else {
         item.classList.remove('active');
+      }
+    });
+  }
+  
+  /**
+   * Initialize popups
+   */
+  initPopups() {
+    // Get popup elements
+    const extraBtn = document.getElementById('extra-btn');
+    const linksBtn = document.getElementById('links-btn');
+    const discordBtn = document.getElementById('discord-btn');
+    
+    const extraPopup = document.getElementById('extra-popup');
+    const linksPopup = document.getElementById('links-popup');
+    const discordPopup = document.getElementById('discord-popup');
+    
+    const popupOverlay = document.getElementById('popup-overlay');
+    const closeButtons = document.querySelectorAll('.popup-close');
+    
+    // Show popup function
+    const showPopup = (popup) => {
+      popup.classList.add('active');
+      popupOverlay.classList.add('active');
+    };
+    
+    // Hide all popups function
+    const hideAllPopups = () => {
+      document.querySelectorAll('.popup').forEach(popup => {
+        popup.classList.remove('active');
+      });
+      popupOverlay.classList.remove('active');
+    };
+    
+    // Add event listeners
+    if (extraBtn) {
+      extraBtn.addEventListener('click', () => showPopup(extraPopup));
+    }
+    
+    if (linksBtn) {
+      linksBtn.addEventListener('click', () => showPopup(linksPopup));
+    }
+    
+    if (discordBtn) {
+      discordBtn.addEventListener('click', () => showPopup(discordPopup));
+    }
+    
+    // Close buttons
+    closeButtons.forEach(button => {
+      button.addEventListener('click', hideAllPopups);
+    });
+    
+    // Overlay click
+    if (popupOverlay) {
+      popupOverlay.addEventListener('click', hideAllPopups);
+    }
+    
+    // Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hideAllPopups();
       }
     });
   }
