@@ -4,474 +4,331 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>apps | midnight</title>
-  <link rel="icon" type="image/png" href="img/midnightwhitelogo.png">
-  <link rel="stylesheet" href="css/base.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/sidebar.css">
-  <link rel="stylesheet" href="css/cards.css">
-  <link rel="stylesheet" href="css/fontawesome.css">
-  <script src="js/particles.js" defer></script>
-  <script src="js/icons.js" defer></script>
-  <script src="js/sidebar.js" defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/wallpaper.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    /* Version 3 specific styles */
-    body {
-      background-color: #0a0a0a;
-      background-image: radial-gradient(circle at top right, rgba(0, 102, 255, 0.1), transparent 70%);
+    /* Apps-specific styles */
+    .apps-container {
+      margin-bottom: 50px;
     }
     
-    h1, h2, h3, h4, h5, h6, p, a, span, div {
-      text-transform: lowercase;
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
     }
     
-    h1 {
-      font-size: 3rem;
-      letter-spacing: -1px;
-      margin-bottom: 30px;
-      position: relative;
-      display: inline-block;
-    }
-    
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--midnight-blue);
-      border-radius: 3px;
-    }
-    
-    .sidebar {
-      background-color: rgba(15, 15, 15, 0.95);
-      box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
-    }
-    
-    .sidebar-right .sidebar {
-      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
-    }
-    
-    .nav-item {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .nav-item:hover {
-      transform: translateY(-5px) scale(1.1);
-    }
-    
-    .nav-item .tooltip {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .search-bar {
-      background-color: rgba(30, 30, 30, 0.8);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .search-bar:focus-within {
-      transform: scale(1.02);
-    }
-    
-    .card-grid {
-      gap: 25px;
-    }
-    
-    .card-v3 {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .card-v3:hover {
-      transform: translateY(-15px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-    
-    .card-v3 .card-image {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .card-v3:hover .card-image {
-      transform: scale(1.05);
-      filter: brightness(1.1);
-    }
-    
-    .page-transition {
-      animation: slideUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* Category filters */
-    .category-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 30px;
-    }
-    
-    .category-filter {
-      background-color: rgba(30, 30, 30, 0.8);
-      backdrop-filter: blur(5px);
-      border-radius: 20px;
-      padding: 8px 16px;
-      font-size: 14px;
+    .app-card {
+      border-radius: 16px;
+      background: var(--card-bg);
+      transition: var(--transition-default);
       cursor: pointer;
-      transition: all 0.3s ease;
-      border: 1px solid transparent;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      will-change: transform;
+      transform: translateZ(0);
     }
     
-    .category-filter:hover {
-      background-color: rgba(40, 40, 40, 0.8);
-      transform: translateY(-2px);
+    .app-card:hover {
+      transform: translateY(-5px);
     }
     
-    .category-filter.active {
-      background-color: rgba(0, 102, 255, 0.2);
-      border-color: rgba(0, 102, 255, 0.5);
-      color: var(--midnight-white);
+    .app-header {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    /* Hide cards when filtered */
-    .card-v3.hidden {
-      display: none;
+    .app-icon {
+      font-size: 32px;
+      color: var(--color-blue);
+      margin-right: 15px;
+      transition: var(--transition-default);
     }
     
-    /* No results message */
-    .no-results {
-      text-align: center;
-      padding: 50px 0;
-      color: #aaa;
-      font-size: 1.2rem;
-      display: none;
+    .app-card:hover .app-icon {
+      transform: scale(1.1);
+    }
+    
+    .app-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    
+    .app-content {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    
+    .app-description {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 15px;
+      flex: 1;
+    }
+    
+    .app-open-button {
+      background: rgba(58, 174, 252, 0.2);
+      color: var(--color-blue);
+      border: none;
+      border-radius: 16px;
+      padding: 8px 16px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition-default);
+      text-transform: lowercase;
+      align-self: flex-start;
+    }
+    
+    .app-open-button:hover {
+      background: rgba(58, 174, 252, 0.3);
+    }
+    
+    /* App Frame */
+    .app-frame-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .app-frame-container.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .app-frame-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--card-bg);
+    }
+    
+    .app-frame-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    
+    .app-frame-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition-default);
+    }
+    
+    .app-frame-close:hover {
+      background: var(--color-blue);
+    }
+    
+    .app-frame {
+      flex: 1;
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Search */
+    .search-container {
+      margin-bottom: 30px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 20px;
+      border: none;
+      background: var(--card-bg);
+      color: var(--text-color);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      transition: var(--transition-default);
+    }
+    
+    .search-input:focus {
+      box-shadow: 0 0 20px var(--color-blue-glow);
+      outline: none;
     }
   </style>
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
-<body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <a href="index.html" id="logo">
-        <i class="fa fa-globe"></i>
-      </a>
+<body class="theme-deep-blue">
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar-container"></div>
+    
+    <!-- Content -->
+    <div class="content">
+      <div class="container">
+        <!-- Header -->
+        <div class="header-container"></div>
+        
+        <!-- Search -->
+        <div class="search-container">
+          <input type="text" class="search-input" id="app-search" placeholder="search apps..." />
+        </div>
+        
+        <!-- Apps Container -->
+        <div class="apps-container">
+          <div class="apps-grid staggered-list" id="apps-grid">
+            <!-- Apps will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- App Frame -->
+  <div class="app-frame-container" id="app-frame-container">
+    <div class="app-frame-header">
+      <div class="app-frame-title" id="app-frame-title"></div>
+      <div class="app-frame-close">
+        <i class="fa-solid fa-times"></i>
+      </div>
     </div>
     
-    <div class="sidebar-nav">
-      <a href="index.html" class="nav-item" id="nav-home">
-        <i class="fa fa-home"></i>
-        <span class="tooltip">home</span>
-      </a>
-      
-      <a href="g.html" class="nav-item" id="nav-games">
-        <i class="fa fa-gamepad"></i>
-        <span class="tooltip">games</span>
-      </a>
-      
-      <a href="a.html" class="nav-item active" id="nav-apps">
-        <i class="fa fa-th"></i>
-        <span class="tooltip">apps</span>
-      </a>
-      
-      <a href="p.html" class="nav-item" id="nav-proxy">
-        <i class="fa fa-globe"></i>
-        <span class="tooltip">proxy</span>
-      </a>
-    </div>
-    
-    <div class="sidebar-bottom">
-      <a href="s.html" class="nav-item" id="nav-settings">
-        <i class="fa fa-cog"></i>
-        <span class="tooltip">settings</span>
-      </a>
-    </div>
+    <iframe class="app-frame" id="app-frame" allowfullscreen></iframe>
   </div>
   
-  <!-- Main Content -->
-  <div class="container page-transition">
-    <h1>apps</h1>
-    
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <i class="fa fa-search" style="margin-right: 10px; color: #aaa;"></i>
-      <input type="text" placeholder="search apps..." id="search-input">
-    </div>
-    
-    <!-- Category Filters -->
-    <div class="category-filters">
-      <div class="category-filter active" data-category="all">all apps</div>
-      <div class="category-filter" data-category="productivity">productivity</div>
-      <div class="category-filter" data-category="utilities">utilities</div>
-      <div class="category-filter" data-category="media">media</div>
-      <div class="category-filter" data-category="tools">tools</div>
-      <div class="category-filter" data-category="social">social</div>
-    </div>
-    
-    <!-- No Results Message -->
-    <div class="no-results">
-      <p>no apps found matching your search</p>
-    </div>
-    
-    <!-- Apps Grid -->
-    <div class="card-grid">
-      <!-- Row 1 -->
-      <div class="card-v3" data-title="calculator" data-categories="utilities,tools">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+1" alt="App 1" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open calculator">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">calculator</div>
-          <div class="card-description">scientific calculator</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="notes" data-categories="productivity">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+2" alt="App 2" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open notes">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">notes</div>
-          <div class="card-description">take quick notes</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="weather" data-categories="utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+3" alt="App 3" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open weather">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">weather</div>
-          <div class="card-description">check local weather</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="clock" data-categories="utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+4" alt="App 4" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open clock">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">clock</div>
-          <div class="card-description">time, alarms, timer</div>
-        </div>
-      </div>
-      
-      <!-- Row 2 -->
-      <div class="card-v3" data-title="calendar" data-categories="productivity,utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+5" alt="App 5" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open calendar">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">calendar</div>
-          <div class="card-description">schedule and events</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="music player" data-categories="media">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+6" alt="App 6" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open music player">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">music player</div>
-          <div class="card-description">stream music</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="file converter" data-categories="tools,utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+7" alt="App 7" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open file converter">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">file converter</div>
-          <div class="card-description">convert file formats</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="text editor" data-categories="productivity,tools">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+8" alt="App 8" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open text editor">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">text editor</div>
-          <div class="card-description">edit text files</div>
-        </div>
-      </div>
-      
-      <!-- Row 3 -->
-      <div class="card-v3" data-title="image editor" data-categories="media,tools">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+9" alt="App 9" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open image editor">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">image editor</div>
-          <div class="card-description">edit images online</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="pdf viewer" data-categories="productivity,utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+10" alt="App 10" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open pdf viewer">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">pdf viewer</div>
-          <div class="card-description">view pdf documents</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="video player" data-categories="media">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+11" alt="App 11" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open video player">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">video player</div>
-          <div class="card-description">play videos online</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="password generator" data-categories="utilities,tools">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+12" alt="App 12" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open password generator">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">password generator</div>
-          <div class="card-description">create secure passwords</div>
-        </div>
-      </div>
-      
-      <!-- Row 4 -->
-      <div class="card-v3" data-title="qr code generator" data-categories="tools,utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+13" alt="App 13" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open qr code generator">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">qr code generator</div>
-          <div class="card-description">create qr codes</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="url shortener" data-categories="tools,utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+14" alt="App 14" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open url shortener">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">url shortener</div>
-          <div class="card-description">shorten long urls</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="drawing tool" data-categories="media,tools">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+15" alt="App 15" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open drawing tool">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">drawing tool</div>
-          <div class="card-description">digital drawing canvas</div>
-        </div>
-      </div>
-      
-      <div class="card-v3" data-title="voice recorder" data-categories="media,utilities">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=App+16" alt="App 16" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open voice recorder">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">voice recorder</div>
-          <div class="card-description">record audio notes</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+  <script src="js/wallpaper.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/main.js"></script>
   
   <script>
-    // Initialize search and filter functionality
+    // Apps functionality
     document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.getElementById('search-input');
-      const categoryFilters = document.querySelectorAll('.category-filter');
-      const appCards = document.querySelectorAll('.card-v3');
-      const noResults = document.querySelector('.no-results');
+      let apps = [];
       
-      // Check URL for search parameter
-      const urlParams = new URLSearchParams(window.location.search);
-      const searchQuery = urlParams.get('search');
-      if (searchQuery) {
-        searchInput.value = searchQuery;
-        filterApps(searchQuery, 'all');
-      }
+      // DOM elements
+      const appsGrid = document.getElementById('apps-grid');
+      const appSearch = document.getElementById('app-search');
+      const appFrameContainer = document.getElementById('app-frame-container');
+      const appFrame = document.getElementById('app-frame');
+      const appFrameTitle = document.getElementById('app-frame-title');
       
-      // Search functionality
-      searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim().toLowerCase();
-        const activeCategory = document.querySelector('.category-filter.active').getAttribute('data-category');
-        filterApps(query, activeCategory);
-      });
-      
-      // Category filter functionality
-      categoryFilters.forEach(filter => {
-        filter.addEventListener('click', () => {
-          // Update active state
-          categoryFilters.forEach(f => f.classList.remove('active'));
-          filter.classList.add('active');
-          
-          // Filter apps
-          const category = filter.getAttribute('data-category');
-          const query = searchInput.value.trim().toLowerCase();
-          filterApps(query, category);
+      // Load apps from JSON
+      fetch('data/apps.json')
+        .then(response => response.json())
+        .then(data => {
+          apps = data;
+          renderApps(apps);
+        })
+        .catch(error => {
+          console.error('Error loading apps:', error);
+          appsGrid.innerHTML = '<p>failed to load apps</p>';
         });
-      });
       
-      // Function to filter apps by search query and category
-      function filterApps(query, category) {
-        let visibleCount = 0;
+      // Render apps
+      function renderApps(appsToRender) {
+        appsGrid.innerHTML = '';
         
-        appCards.forEach(card => {
-          const title = card.getAttribute('data-title').toLowerCase();
-          const categories = card.getAttribute('data-categories').split(',');
-          
-          // Check if card matches both search query and category filter
-          const matchesSearch = query === '' || title.includes(query);
-          const matchesCategory = category === 'all' || categories.includes(category);
-          
-          if (matchesSearch && matchesCategory) {
-            card.classList.remove('hidden');
-            visibleCount++;
-          } else {
-            card.classList.add('hidden');
-          }
-        });
-        
-        // Show/hide no results message
-        if (visibleCount === 0) {
-          noResults.style.display = 'block';
-        } else {
-          noResults.style.display = 'none';
+        if (appsToRender.length === 0) {
+          appsGrid.innerHTML = '<p>no apps found</p>';
+          return;
         }
+        
+        appsToRender.forEach(app => {
+          const appCard = document.createElement('div');
+          appCard.className = 'app-card';
+          appCard.dataset.id = app.id;
+          
+          appCard.innerHTML = `
+            <div class="app-header">
+              <div class="app-icon">
+                <i class="${app.icon}"></i>
+              </div>
+              <div class="app-title">${app.title}</div>
+            </div>
+            <div class="app-content">
+              <div class="app-description">${app.description}</div>
+              <button class="app-open-button">open app</button>
+            </div>
+          `;
+          
+          const openButton = appCard.querySelector('.app-open-button');
+          openButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openApp(app);
+          });
+          
+          appCard.addEventListener('click', () => {
+            openApp(app);
+          });
+          
+          appsGrid.appendChild(appCard);
+        });
       }
+      
+      // Open app
+      function openApp(app) {
+        appFrameTitle.textContent = app.title;
+        appFrame.src = app.url;
+        appFrameContainer.classList.add('active');
+      }
+      
+      // Close app frame
+      function closeAppFrame() {
+        appFrameContainer.classList.remove('active');
+        setTimeout(() => {
+          appFrame.src = '';
+        }, 300);
+      }
+      
+      // Search apps
+      function searchApps(query) {
+        query = query.toLowerCase().trim();
+        
+        if (!query) {
+          renderApps(apps);
+          return;
+        }
+        
+        const filteredApps = apps.filter(app => 
+          app.title.toLowerCase().includes(query) || 
+          app.description.toLowerCase().includes(query)
+        );
+        
+        renderApps(filteredApps);
+      }
+      
+      // Event listeners
+      document.querySelector('.app-frame-close').addEventListener('click', closeAppFrame);
+      
+      appSearch.addEventListener('input', (e) => {
+        searchApps(e.target.value);
+      });
     });
   </script>
 </body>
