@@ -1,3 +1,4 @@
+
 <div class="sidebar">
   <ul class="sidebar-nav">
     <li class="sidebar-nav-item">
@@ -43,32 +44,30 @@
       </a>
     </li>
     <li class="sidebar-nav-item">
+      <a href="music.html" class="sidebar-nav-link">
+        <span class="sidebar-nav-icon"><i class="fa-solid fa-music"></i></span>
+        <span class="sidebar-nav-text">music</span>
+      </a>
+    </li>
+    <li class="sidebar-nav-item">
       <a href="s.html" class="sidebar-nav-link">
         <span class="sidebar-nav-icon"><i class="fa-solid fa-gear"></i></span>
         <span class="sidebar-nav-text">settings</span>
       </a>
     </li>
-
-    <!-- Extras moved into nav -->
-    <li class="sidebar-nav-item" id="extra-btn">
-      <a href="#" class="sidebar-nav-link">
-        <span class="sidebar-nav-icon"><i class="fa-solid fa-plus"></i></span>
-        <span class="sidebar-nav-text">extras</span>
-      </a>
-    </li>
-    <li class="sidebar-nav-item" id="links-btn">
-      <a href="#" class="sidebar-nav-link">
-        <span class="sidebar-nav-icon"><i class="fa-solid fa-link"></i></span>
-        <span class="sidebar-nav-text">links</span>
-      </a>
-    </li>
-    <li class="sidebar-nav-item" id="discord-btn">
-      <a href="#" class="sidebar-nav-link">
-        <span class="sidebar-nav-icon"><i class="fa-brands fa-discord"></i></span>
-        <span class="sidebar-nav-text">discord</span>
-      </a>
-    </li>
   </ul>
+  
+  <div class="sidebar-extra">
+    <div class="sidebar-extra-item" id="extra-btn">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+    <div class="sidebar-extra-item" id="links-btn">
+      <i class="fa-solid fa-link"></i>
+    </div>
+    <div class="sidebar-extra-item" id="discord-btn">
+      <i class="fa-brands fa-discord"></i>
+    </div>
+  </div>
 </div>
 
 <!-- Popups -->
@@ -118,72 +117,20 @@
       <i class="fa-solid fa-times"></i>
     </div>
   </div>
-  <div class="popup-content news-card">
-    <h2 class="news-title">✨ Discord Community ✨</h2>
-    <h3 class="news-subtitle">── Join us today! 🚀</h3>
+  <div class="popup-content">
     <p>join our discord community to connect with other users, get help, and stay updated on the latest developments!</p>
     <p>invite link: <a href="#" target="_blank">discord.gg/midnight</a></p>
     <p>in our discord server you can:</p>
     <ul>
-      <li>💡 get help with using midnight</li>
-      <li>🌟 suggest new features</li>
-      <li>🐞 report bugs</li>
-      <li>💬 chat with other users</li>
-      <li>🎉 participate in community events</li>
+      <li>get help with using midnight</li>
+      <li>suggest new features</li>
+      <li>report bugs</li>
+      <li>chat with other users</li>
+      <li>participate in community events</li>
     </ul>
   </div>
 </div>
 
 <div class="popup-overlay" id="popup-overlay"></div>
-
-<!-- Styling -->
-<style>
-  /* Overlay with 3D shadow + hover */
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(4px);
-    box-shadow: 0 0 30px rgba(0,0,0,0.8);
-    display: none;
-    transition: all 0.3s ease;
-    z-index: 999;
-  }
-  .popup-overlay:hover {
-    background: rgba(0,0,0,0.7);
-    box-shadow: 0 0 40px rgba(0,0,0,1);
-  }
-
-  /* News card style for discord popup */
-  .news-card {
-    padding: 1rem;
-    background: #1e1e2f;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    color: #fff;
-  }
-  .news-title {
-    text-align: center;
-    font-size: 1.5rem;
-    text-decoration: underline;
-    margin-bottom: 0.5rem;
-  }
-  .news-subtitle {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #aaa;
-    margin-bottom: 1rem;
-  }
-  .news-card ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  .news-card ul li {
-    margin: 0.4rem 0;
-  }
-</style>
 
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
