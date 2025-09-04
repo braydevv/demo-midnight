@@ -1,0 +1,198 @@
+/* Midnight - Main CSS */
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
+/* Reset and Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Base Colors */
+  --color-black: #0a0a0a;
+  --color-dark-gray: #111214;
+  --color-blue: #3aaefc;
+  
+  /* Theme Variables - Will be overridden by theme.js */
+  --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #101b2a 100%);
+  --card-bg: rgba(17, 18, 20, 0.7);
+  --text-color: #ffffff;
+  --sidebar-width-collapsed: 60px;
+  --sidebar-width-expanded: 240px;
+  
+  /* Animation */
+  --transition-default: 220ms ease;
+  --transition-long: 350ms ease;
+}
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  min-height: 100vh;
+  text-transform: lowercase;
+  overflow-x: hidden;
+}
+
+/* Fix Font Awesome icons to not be italic */
+.fa-solid {
+  font-style: normal;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Buttons */
+.btn {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: none;
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-default);
+  text-transform: lowercase;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  transition: var(--transition-default);
+  backdrop-filter: blur(10px);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  transition: var(--transition-long);
+  margin-left: var(--sidebar-width-collapsed);
+}
+
+.content.sidebar-expanded {
+  margin-left: var(--sidebar-width-expanded);
+}
+
+.content.blurred {
+  filter: blur(6px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Focus states */
+:focus {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Staggered animations for lists */
+.staggered-list > * {
+  opacity: 0;
+}
+
+.staggered-list > *:nth-child(1) { animation: fadeIn 0.3s ease forwards 0.1s; }
+.staggered-list > *:nth-child(2) { animation: fadeIn 0.3s ease forwards 0.15s; }
+.staggered-list > *:nth-child(3) { animation: fadeIn 0.3s ease forwards 0.2s; }
+.staggered-list > *:nth-child(4) { animation: fadeIn 0.3s ease forwards 0.25s; }
+.staggered-list > *:nth-child(5) { animation: fadeIn 0.3s ease forwards 0.3s; }
+.staggered-list > *:nth-child(6) { animation: fadeIn 0.3s ease forwards 0.35s; }
+.staggered-list > *:nth-child(7) { animation: fadeIn 0.3s ease forwards 0.4s; }
+.staggered-list > *:nth-child(8) { animation: fadeIn 0.3s ease forwards 0.45s; }
+.staggered-list > *:nth-child(9) { animation: fadeIn 0.3s ease forwards 0.5s; }
+.staggered-list > *:nth-child(10) { animation: fadeIn 0.3s ease forwards 0.55s; }
+
+/* Wallpaper */
+.wallpaper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  transition: var(--transition-long);
+}
+
+.wallpaper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  background: var(--bg-gradient);
+  opacity: 0.7;
+}
+
+/* Animated gradient overlay */
+.gradient-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: var(--bg-gradient);
+  opacity: 0.8;
+  transition: var(--transition-long);
+}
