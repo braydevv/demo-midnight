@@ -1,0 +1,34 @@
+/* Midnight - Animation Controls */
+
+/* No Animations */
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+.no-animations .typing-dot {
+  animation: none !important;
+}
+
+.no-animations .loading-spinner,
+.no-animations .vm-loading-spinner {
+  animation: none !important;
+}
+
+.no-animations .logo-dot {
+  animation: none !important;
+}
+
+.no-animations .staggered-list > * {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+.no-animations .fade-in {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Reduce Motion - already defined in accessibility.css */
