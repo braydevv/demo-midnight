@@ -4,438 +4,715 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>proxy | midnight</title>
-  <link rel="icon" type="image/png" href="img/midnightwhitelogo.png">
-  <link rel="stylesheet" href="css/base.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/sidebar.css">
-  <link rel="stylesheet" href="css/cards.css">
-  <link rel="stylesheet" href="css/fontawesome.css">
-  <script src="js/particles.js" defer></script>
-  <script src="js/icons.js" defer></script>
-  <script src="js/sidebar.js" defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/wallpaper.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    /* Version 3 specific styles */
-    body {
-      background-color: #0a0a0a;
-      background-image: radial-gradient(circle at top right, rgba(0, 102, 255, 0.1), transparent 70%);
+    /* Proxy-specific styles */
+    .proxy-container {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 80px);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--card-bg);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-top: -20px;
     }
     
-    h1, h2, h3, h4, h5, h6, p, a, span, div {
+    .header-container {
+      display: none;
+    }
+    
+    /* Tab Bar */
+    .tab-bar {
+      display: flex;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    
+    .tab-bar::-webkit-scrollbar {
+      height: 5px;
+    }
+    
+    .tab-bar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .tab-bar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+    }
+    
+    .tab {
+      display: flex;
+      align-items: center;
+      padding: 8px 15px;
+      margin-right: 5px;
+      cursor: pointer;
+      transition: var(--transition-default);
+      white-space: nowrap;
+      position: relative;
+      min-width: 100px;
+      border-radius: 0;
+    }
+    
+    .tab.active {
+      background: rgba(58, 174, 252, 0.1);
+    }
+    
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--color-blue);
+    }
+    
+    .tab-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .tab-close {
+      margin-left: 10px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      opacity: 0.5;
+      transition: var(--transition-default);
+    }
+    
+    .tab:hover .tab-close {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .new-tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: var(--transition-default);
+      flex-shrink: 0;
+    }
+    
+    .new-tab:hover {
+      background: rgba(58, 174, 252, 0.3);
+    }
+    
+    /* Omnibox */
+    .omnibox-container {
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+    }
+    
+    .omnibox {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 16px;
+      border: none;
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text-color);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      transition: var(--transition-default);
       text-transform: lowercase;
     }
     
-    h1 {
-      font-size: 3rem;
-      letter-spacing: -1px;
-      margin-bottom: 30px;
+    .omnibox:focus {
+      outline: none;
+      border: 1px solid rgba(58, 174, 252, 0.3);
+    }
+    
+    .omnibox-actions {
+      display: flex;
+      margin-left: 10px;
+    }
+    
+    .omnibox-action {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: var(--transition-default);
+      margin-left: 5px;
+    }
+    
+    .omnibox-action:hover {
+      background: rgba(58, 174, 252, 0.3);
+    }
+    
+    /* Content Area */
+    .content-area {
+      flex: 1;
       position: relative;
-      display: inline-block;
+      background: #000;
     }
     
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--midnight-blue);
-      border-radius: 3px;
-    }
-    
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      position: relative;
-      display: inline-block;
-    }
-    
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 50%;
-      height: 2px;
-      background: var(--midnight-blue);
-    }
-    
-    .sidebar {
-      background-color: rgba(15, 15, 15, 0.95);
-      box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
-    }
-    
-    .sidebar-right .sidebar {
-      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
-    }
-    
-    .nav-item {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .nav-item:hover {
-      transform: translateY(-5px) scale(1.1);
-    }
-    
-    .nav-item .tooltip {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .search-bar {
-      background-color: rgba(30, 30, 30, 0.8);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .search-bar:focus-within {
-      transform: scale(1.02);
-    }
-    
-    .settings-section {
-      background-color: rgba(25, 25, 25, 0.8);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-      border-radius: 15px;
-      padding: 25px;
-      margin-bottom: 30px;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .settings-section::before {
-      content: '';
+    .iframe-container {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 5px;
-      background: linear-gradient(to right, var(--midnight-blue), transparent);
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     
-    .settings-option {
-      transition: all 0.3s ease;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    .iframe-container.active {
+      opacity: 1;
+      z-index: 1;
     }
     
-    .settings-option:hover {
-      background-color: rgba(40, 40, 40, 0.5);
-    }
-    
-    .settings-option:last-child {
-      border-bottom: none;
-    }
-    
-    .card-grid {
-      gap: 25px;
-    }
-    
-    .card-v3 {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .card-v3:hover {
-      transform: translateY(-15px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-    
-    .card-v3 .card-image {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .card-v3:hover .card-image {
-      transform: scale(1.05);
-      filter: brightness(1.1);
-    }
-    
-    button {
-      background-color: var(--midnight-blue);
-      color: var(--midnight-white);
+    .proxy-iframe {
+      width: 100%;
+      height: 100%;
       border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    /* Loading Indicator */
+    .loading-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+    
+    .loading-bar {
+      height: 100%;
+      width: 0;
+      background: var(--color-blue);
+      box-shadow: 0 0 10px var(--color-blue-glow);
+      transition: width 0.2s ease;
+    }
+    
+    .loading-bar.animate {
+      animation: loading 2s ease infinite;
+    }
+    
+    @keyframes loading {
+      0% { width: 0; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+    
+    /* Theme Selector */
+    .tab-theme-selector {
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+      width: 250px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: var(--transition-default);
+    }
+    
+    .tab-theme-selector.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .tab-theme-selector h3 {
+      margin-bottom: 10px;
       font-size: 16px;
-      letter-spacing: 0.5px;
-      text-transform: lowercase;
     }
     
-    button:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px var(--midnight-blue);
+    .tab-theme-colors {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
     }
     
-    .page-transition {
-      animation: slideUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .tab-theme-color {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: var(--transition-default);
     }
     
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .tab-theme-color:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Empty State */
+    .empty-state {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 0;
+    }
+    
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+    
+    .empty-state-text {
+      font-size: 18px;
+      opacity: 0.5;
     }
   </style>
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
-<body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <a href="index.html" id="logo">
-        <i class="fa fa-globe"></i>
-      </a>
-    </div>
+<body class="theme-deep-blue">
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar-container"></div>
     
-    <div class="sidebar-nav">
-      <a href="index.html" class="nav-item" id="nav-home">
-        <i class="fa fa-home"></i>
-        <span class="tooltip">home</span>
-      </a>
-      
-      <a href="g.html" class="nav-item" id="nav-games">
-        <i class="fa fa-gamepad"></i>
-        <span class="tooltip">games</span>
-      </a>
-      
-      <a href="a.html" class="nav-item" id="nav-apps">
-        <i class="fa fa-th"></i>
-        <span class="tooltip">apps</span>
-      </a>
-      
-      <a href="p.html" class="nav-item active" id="nav-proxy">
-        <i class="fa fa-globe"></i>
-        <span class="tooltip">proxy</span>
-      </a>
-    </div>
-    
-    <div class="sidebar-bottom">
-      <a href="s.html" class="nav-item" id="nav-settings">
-        <i class="fa fa-cog"></i>
-        <span class="tooltip">settings</span>
-      </a>
+    <!-- Content -->
+    <div class="content">
+      <div class="container">
+        <!-- Header -->
+        <div class="header-container"></div>
+        
+        <!-- Proxy Container -->
+        <div class="proxy-container">
+          <!-- Tab Bar -->
+          <div class="tab-bar" id="tab-bar">
+            <!-- Tabs will be populated by JavaScript -->
+            <div class="new-tab" id="new-tab">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+          
+          <!-- Omnibox -->
+          <div class="omnibox-container">
+            <input type="text" class="omnibox" id="omnibox" placeholder="type a site or search..." />
+            <div class="omnibox-actions">
+              <div class="omnibox-action" id="refresh-page">
+                <i class="fa-solid fa-rotate-right"></i>
+              </div>
+              <div class="omnibox-action" id="tab-settings">
+                <i class="fa-solid fa-palette"></i>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Loading Indicator -->
+          <div class="loading-indicator">
+            <div class="loading-bar" id="loading-bar"></div>
+          </div>
+          
+          <!-- Content Area -->
+          <div class="content-area" id="content-area">
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state">
+              <div class="empty-state-icon">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+              <div class="empty-state-text">type a url or search term to begin</div>
+            </div>
+            
+            <!-- Iframes will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   
-  <!-- Main Content -->
-  <div class="container page-transition">
-    <h1>proxy</h1>
-    
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <i class="fa fa-search" style="margin-right: 10px; color: #aaa;"></i>
-      <input type="text" placeholder="enter url to browse..." id="proxy-url-input">
+  <!-- Tab Theme Selector -->
+  <div class="tab-theme-selector" id="tab-theme-selector">
+    <h3>tab accent color</h3>
+    <div class="tab-theme-colors">
+      <div class="tab-theme-color" style="background: #3aaefc;" data-color="#3aaefc"></div>
+      <div class="tab-theme-color" style="background: #fc3a3a;" data-color="#fc3a3a"></div>
+      <div class="tab-theme-color" style="background: #3afc4d;" data-color="#3afc4d"></div>
+      <div class="tab-theme-color" style="background: #fc3ad1;" data-color="#fc3ad1"></div>
+      <div class="tab-theme-color" style="background: #fcba3a;" data-color="#fcba3a"></div>
+      <div class="tab-theme-color" style="background: #a13afc;" data-color="#a13afc"></div>
+      <div class="tab-theme-color" style="background: #3afcee;" data-color="#3afcee"></div>
+      <div class="tab-theme-color" style="background: #fc3a8f;" data-color="#fc3a8f"></div>
+      <div class="tab-theme-color" style="background: #3a8ffc;" data-color="#3a8ffc"></div>
+      <div class="tab-theme-color" style="background: #fc8f3a;" data-color="#fc8f3a"></div>
     </div>
-    
-    <!-- Proxy Options -->
-    <div class="settings-section">
-      <h2>proxy options</h2>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">ultraviolet</div>
-          <div class="settings-option-description">fast and reliable proxy with good compatibility</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="radio" name="proxy-type" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">rammerhead</div>
-          <div class="settings-option-description">session-based proxy with persistent cookies</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="radio" name="proxy-type">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">holy unblocker</div>
-          <div class="settings-option-description">versatile proxy with multiple backend options</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="radio" name="proxy-type">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">incognito</div>
-          <div class="settings-option-description">lightweight proxy focused on speed</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="radio" name="proxy-type">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-    </div>
-    
-    <!-- Proxy Settings -->
-    <div class="settings-section">
-      <h2>proxy settings</h2>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">block ads</div>
-          <div class="settings-option-description">block advertisements while browsing</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">stealth mode</div>
-          <div class="settings-option-description">hide proxy usage from websites</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">cookie support</div>
-          <div class="settings-option-description">enable cookies for logins and preferences</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      
-      <div class="settings-option">
-        <div>
-          <div class="settings-option-label">javascript</div>
-          <div class="settings-option-description">enable javascript execution</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-    </div>
-    
-    <!-- Quick Access -->
-    <h2>quick access</h2>
-    <div class="card-grid">
-      <div class="card-v3">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=YouTube" alt="YouTube" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="access youtube">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">youtube</div>
-          <div class="card-description">video streaming platform</div>
-        </div>
-      </div>
-      
-      <div class="card-v3">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Discord" alt="Discord" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="access discord">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">discord</div>
-          <div class="card-description">chat and communication</div>
-        </div>
-      </div>
-      
-      <div class="card-v3">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Reddit" alt="Reddit" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="access reddit">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">reddit</div>
-          <div class="card-description">discussion forums</div>
-        </div>
-      </div>
-      
-      <div class="card-v3">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Twitter" alt="Twitter" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="access twitter">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">twitter</div>
-          <div class="card-description">social media platform</div>
-        </div>
-      </div>
-    </div>
-    
-    <button style="margin-top: 20px; width: 100%;" id="connect-proxy-btn">connect to proxy</button>
   </div>
+  
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+  <script src="js/wallpaper.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/main.js"></script>
   
   <script>
-    // Initialize proxy functionality
+    // Proxy functionality
     document.addEventListener('DOMContentLoaded', () => {
-      const proxyUrlInput = document.getElementById('proxy-url-input');
-      const connectProxyBtn = document.getElementById('connect-proxy-btn');
+      // Constants
+      const PROXY_PREFIX = ''; // Will be set later
+      const DEFAULT_ENGINE = 'duckduckgo.com/?q=';
       
-      // Check URL for proxy parameter
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlToProxy = urlParams.get('url');
-      if (urlToProxy) {
-        proxyUrlInput.value = urlToProxy;
+      // DOM elements
+      const tabBar = document.getElementById('tab-bar');
+      const newTabBtn = document.getElementById('new-tab');
+      const omnibox = document.getElementById('omnibox');
+      const refreshBtn = document.getElementById('refresh-page');
+      const tabSettingsBtn = document.getElementById('tab-settings');
+      const contentArea = document.getElementById('content-area');
+      const emptyState = document.getElementById('empty-state');
+      const loadingBar = document.getElementById('loading-bar');
+      const tabThemeSelector = document.getElementById('tab-theme-selector');
+      
+      // State
+      let tabs = [];
+      let activeTabId = null;
+      
+      // Load saved tabs
+      loadTabs();
+      
+      // If no tabs, create a new one
+      if (tabs.length === 0) {
+        createNewTab();
+      } else {
+        renderTabs();
+        activateTab(tabs[0].id);
       }
       
-      // Connect to proxy button
-      connectProxyBtn.addEventListener('click', () => {
-        const url = proxyUrlInput.value.trim();
-        if (url) {
-          // In a real implementation, this would connect to the proxy
-          // For now, just open in a new tab
-          window.open('https://' + url.replace(/^https?:\/\//, ''), '_blank');
-        } else {
-          alert('Please enter a URL to browse');
-        }
-      });
+      // Create new tab
+      function createNewTab() {
+        const tabId = 'tab-' + Date.now();
+        
+        const newTab = {
+          id: tabId,
+          title: 'new tab',
+          url: '',
+          theme: '#3aaefc'
+        };
+        
+        tabs.push(newTab);
+        saveTabs();
+        renderTabs();
+        activateTab(tabId);
+      }
       
-      // Enter key in input
-      proxyUrlInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          connectProxyBtn.click();
-        }
-      });
-      
-      // Quick access cards
-      document.querySelectorAll('.card-v3 .play-button').forEach(button => {
-        button.addEventListener('click', (e) => {
-          e.preventDefault();
-          const cardTitle = e.target.closest('.card-v3').querySelector('.card-title').textContent.trim();
-          
-          // Map titles to URLs
-          const urlMap = {
-            'youtube': 'youtube.com',
-            'discord': 'discord.com',
-            'reddit': 'reddit.com',
-            'twitter': 'twitter.com'
-          };
-          
-          const url = urlMap[cardTitle] || cardTitle + '.com';
-          window.open('https://' + url, '_blank');
+      // Render tabs
+      function renderTabs() {
+        // Clear tab bar except for new tab button
+        const children = Array.from(tabBar.children);
+        children.forEach(child => {
+          if (!child.classList.contains('new-tab')) {
+            tabBar.removeChild(child);
+          }
         });
+        
+        // Add tabs
+        tabs.forEach(tab => {
+          const tabElement = document.createElement('div');
+          tabElement.className = 'tab';
+          tabElement.dataset.id = tab.id;
+          
+          if (tab.id === activeTabId) {
+            tabElement.classList.add('active');
+            
+            // Set active tab style
+            document.documentElement.style.setProperty('--color-blue', tab.theme);
+            document.documentElement.style.setProperty('--color-blue-glow', tab.theme + '66');
+          }
+          
+          tabElement.innerHTML = `
+            <div class="tab-title">${tab.title}</div>
+            <div class="tab-close"><i class="fa-solid fa-times"></i></div>
+          `;
+          
+          tabElement.addEventListener('click', (e) => {
+            if (!e.target.closest('.tab-close')) {
+              activateTab(tab.id);
+            }
+          });
+          
+          const closeBtn = tabElement.querySelector('.tab-close');
+          closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeTab(tab.id);
+          });
+          
+          tabBar.insertBefore(tabElement, newTabBtn);
+        });
+      }
+      
+      // Activate tab
+      function activateTab(tabId) {
+        activeTabId = tabId;
+        const tab = tabs.find(t => t.id === tabId);
+        
+        if (!tab) return;
+        
+        // Update active tab in UI
+        renderTabs();
+        
+        // Update omnibox
+        omnibox.value = tab.url;
+        
+        // Update iframe visibility
+        const iframes = contentArea.querySelectorAll('.iframe-container');
+        iframes.forEach(iframe => {
+          if (iframe.dataset.tabId === tabId) {
+            iframe.classList.add('active');
+          } else {
+            iframe.classList.remove('active');
+          }
+        });
+        
+        // Hide empty state if tab has URL
+        if (tab.url) {
+          emptyState.style.display = 'none';
+        } else {
+          emptyState.style.display = 'flex';
+        }
+      }
+      
+      // Close tab
+      function closeTab(tabId) {
+        const tabIndex = tabs.findIndex(t => t.id === tabId);
+        
+        if (tabIndex === -1) return;
+        
+        // Remove iframe
+        const iframe = contentArea.querySelector(`.iframe-container[data-tab-id="${tabId}"]`);
+        if (iframe) {
+          contentArea.removeChild(iframe);
+        }
+        
+        // Remove tab
+        tabs.splice(tabIndex, 1);
+        
+        // If closed tab was active, activate another tab
+        if (activeTabId === tabId) {
+          if (tabs.length > 0) {
+            // Activate previous tab or first tab
+            const newActiveIndex = Math.max(0, tabIndex - 1);
+            activateTab(tabs[newActiveIndex].id);
+          } else {
+            // No tabs left, create a new one
+            createNewTab();
+          }
+        }
+        
+        saveTabs();
+        renderTabs();
+      }
+      
+      // Navigate to URL
+      function navigateTo(url) {
+        if (!activeTabId) return;
+        
+        const tab = tabs.find(t => t.id === activeTabId);
+        if (!tab) return;
+        
+        // Process URL
+        const processedUrl = processUrl(url);
+        
+        // Update tab
+        tab.url = url;
+        tab.title = getDomainFromUrl(url) || 'new tab';
+        
+        // Create or update iframe
+        let iframe = contentArea.querySelector(`.iframe-container[data-tab-id="${activeTabId}"]`);
+        
+        if (!iframe) {
+          iframe = document.createElement('div');
+          iframe.className = 'iframe-container active';
+          iframe.dataset.tabId = activeTabId;
+          
+          const iframeElement = document.createElement('iframe');
+          iframeElement.className = 'proxy-iframe';
+          iframeElement.src = processedUrl;
+          
+          iframe.appendChild(iframeElement);
+          contentArea.appendChild(iframe);
+        } else {
+          const iframeElement = iframe.querySelector('iframe');
+          iframeElement.src = processedUrl;
+        }
+        
+        // Show loading indicator
+        showLoading();
+        
+        // Hide empty state
+        emptyState.style.display = 'none';
+        
+        // Save tabs
+        saveTabs();
+        renderTabs();
+      }
+      
+      // Process URL
+      function processUrl(input) {
+        input = input.trim().toLowerCase();
+        
+        // If empty, return empty
+        if (!input) return '';
+        
+        // If it contains spaces or doesn't look like a domain, treat as search
+        if (input.includes(' ') || !input.includes('.')) {
+          return PROXY_PREFIX + DEFAULT_ENGINE + encodeURIComponent(input);
+        }
+        
+        // If it doesn't start with http(s)://, add it
+        if (!input.startsWith('http://') && !input.startsWith('https://')) {
+          input = 'https://' + input;
+        }
+        
+        return PROXY_PREFIX + input;
+      }
+      
+      // Get domain from URL
+      function getDomainFromUrl(url) {
+        if (!url) return '';
+        
+        try {
+          // Remove protocol
+          let domain = url.replace(/^(https?:\/\/)?(www\.)?/, '');
+          
+          // Remove path
+          domain = domain.split('/')[0];
+          
+          return domain;
+        } catch (e) {
+          return url;
+        }
+      }
+      
+      // Show loading indicator
+      function showLoading() {
+        loadingBar.classList.add('animate');
+        
+        setTimeout(() => {
+          loadingBar.classList.remove('animate');
+          loadingBar.style.width = '100%';
+          
+          setTimeout(() => {
+            loadingBar.style.width = '0';
+          }, 200);
+        }, 1000);
+      }
+      
+      // Save tabs to sessionStorage
+      function saveTabs() {
+        sessionStorage.setItem('midnight_proxy_tabs', JSON.stringify(tabs));
+      }
+      
+      // Load tabs from sessionStorage
+      function loadTabs() {
+        const savedTabs = sessionStorage.getItem('midnight_proxy_tabs');
+        tabs = savedTabs ? JSON.parse(savedTabs) : [];
+      }
+      
+      // Set tab theme
+      function setTabTheme(color) {
+        if (!activeTabId) return;
+        
+        const tab = tabs.find(t => t.id === activeTabId);
+        if (!tab) return;
+        
+        tab.theme = color;
+        saveTabs();
+        renderTabs();
+      }
+      
+      // Event listeners
+      newTabBtn.addEventListener('click', createNewTab);
+      
+      omnibox.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          navigateTo(omnibox.value);
+        }
+      });
+      
+      refreshBtn.addEventListener('click', () => {
+        if (!activeTabId) return;
+        
+        const tab = tabs.find(t => t.id === activeTabId);
+        if (!tab || !tab.url) return;
+        
+        navigateTo(tab.url);
+      });
+      
+      tabSettingsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tabThemeSelector.classList.toggle('active');
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!tabThemeSelector.contains(e.target) && !tabSettingsBtn.contains(e.target)) {
+          tabThemeSelector.classList.remove('active');
+        }
+      });
+      
+      // Tab theme color selection
+      const themeColors = document.querySelectorAll('.tab-theme-color');
+      themeColors.forEach(color => {
+        color.addEventListener('click', () => {
+          setTabTheme(color.dataset.color);
+          tabThemeSelector.classList.remove('active');
+        });
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        // Ctrl+T: New tab
+        if (e.ctrlKey && e.key === 't') {
+          e.preventDefault();
+          createNewTab();
+        }
+        
+        // Ctrl+W: Close tab
+        if (e.ctrlKey && e.key === 'w') {
+          e.preventDefault();
+          if (activeTabId) {
+            closeTab(activeTabId);
+          }
+        }
       });
     });
   </script>
