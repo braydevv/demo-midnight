@@ -4,409 +4,535 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>midnight</title>
-  <link rel="icon" type="image/png" href="img/midnightwhitelogo.png">
-  <link rel="stylesheet" href="css/base.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/sidebar.css">
-  <link rel="stylesheet" href="css/cards.css">
-  <link rel="stylesheet" href="css/fontawesome.css">
-  <script src="js/particles.js" defer></script>
-  <script src="js/icons.js" defer></script>
-  <script src="js/sidebar.js" defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
-
-
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/wallpaper.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-
-    body {
-      background-color: #0a0a0a;
-      background-image: radial-gradient(circle at top right, rgba(0, 102, 255, 0.1), transparent 70%);
+    /* Home-specific styles */
+    .logo-container {
+      text-align: center;
+      margin: 30px 0;
     }
     
-    h1, h2, h3, h4, h5, h6, p, a, span, div {
-      text-transform: lowercase;
-    }
-    
-    h1 {
-      font-size: 3rem;
-      letter-spacing: -1px;
-      margin-bottom: 30px;
+    .logo {
+      font-size: 64px;
+      font-weight: 700;
       position: relative;
       display: inline-block;
     }
     
-    h1::after {
-      content: '';
+    .logo-dot {
       position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--midnight-blue);
-      border-radius: 3px;
+      top: -5px;
+      right: 48%;
+      width: 8px;
+      height: 8px;
+      background: var(--color-blue);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
     }
     
-    .sidebar {
-      background-color: rgba(15, 15, 15, 0.95);
-      box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+    .tagline {
+      font-size: 18px;
+      opacity: 0.7;
+      margin-top: 10px;
     }
     
-    .sidebar-right .sidebar {
-      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    @keyframes pulse {
+      0% {
+        opacity: 0.6;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.6;
+      }
     }
     
-    .nav-item {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Home Grid Layout */
+    .home-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
     }
     
-    .nav-item:hover {
-      transform: translateY(-5px) scale(1.1);
+    @media (max-width: 992px) {
+      .home-grid {
+        grid-template-columns: 1fr;
+      }
     }
     
-    .nav-item .tooltip {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .home-grid-left, .home-grid-right {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
     
-    .search-bar {
-      background-color: rgba(30, 30, 30, 0.8);
+    /* Quick Tiles */
+    .quick-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 20px;
+    }
+    
+    .quick-tile {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: var(--transition-default);
+      border-radius: 16px;
+      background: var(--card-bg);
       backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
-    .search-bar:focus-within {
-      transform: scale(1.02);
+    .quick-tile:hover {
+      transform: translateY(-5px);
     }
     
-    .announcement-card {
-      background-color: rgba(25, 25, 25, 0.8);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-      border-left: none;
-      border-radius: 15px;
-      position: relative;
-      overflow: hidden;
+    .quick-tile-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+      transition: var(--transition-default);
+    }
+    
+    .quick-tile:hover .quick-tile-icon {
+      transform: scale(1.1);
+      color: var(--color-blue);
+    }
+    
+    .quick-tile-label {
+      font-size: 16px;
+    }
+    
+    /* Recent Section */
+    .recent-section h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    
+    .recent-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    
+    .recent-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-radius: 16px;
+      background: var(--card-bg);
+      text-decoration: none;
+      color: var(--text-color);
+      transition: var(--transition-default);
+    }
+    
+    .recent-item:hover {
+      transform: translateY(-3px);
+    }
+    
+    .recent-item-icon {
+      font-size: 20px;
+      margin-right: 15px;
+      color: var(--color-blue);
+    }
+    
+    /* Announcements Section */
+    .announcements-section h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    
+    .announcements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
       max-height: 300px;
       overflow-y: auto;
     }
     
-    .announcement-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background: linear-gradient(to right, var(--midnight-blue), transparent);
-    }
-    
-    .announcement {
-      transition: all 0.3s ease;
+    .announcement-card {
+      background: var(--card-bg);
+      border-radius: 16px;
       padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition-default);
     }
     
-    .announcement:hover {
-      background-color: rgba(40, 40, 40, 0.5);
+    .announcement-card:hover {
+      transform: translateY(-3px);
     }
     
-    .partners-section h2 {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 30px;
-    }
-    
-    .partners-section h2::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 50%;
-      height: 2px;
-      background: var(--midnight-blue);
-    }
-    
-    .partners-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 20px;
-    }
-    
-    .partner-logo {
-      background-color: rgba(25, 25, 25, 0.8);
-      backdrop-filter: blur(5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border-radius: 15px;
-      aspect-ratio: 1/1;
+    .announcement-header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
+      margin-bottom: 10px;
+    }
+    
+    .announcement-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+    
+    .announcement-date {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .announcement-content {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    /* Widgets Section */
+    .widgets-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    @media (max-width: 1200px) {
+      .widgets-section {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .widget {
+      background: var(--card-bg);
+      border-radius: 16px;
       padding: 15px;
+      transition: var(--transition-default);
     }
     
-    .partner-logo:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    .widget:hover {
+      transform: translateY(-3px);
     }
     
-    .partner-logo img {
-      max-width: 100%;
-      max-height: 60px;
-      border-radius: 10px;
+    .widget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
     }
     
-    .card-grid {
-      gap: 25px;
+    .widget-title {
+      font-weight: 700;
+      font-size: 16px;
     }
     
-    .card-v3 {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .widget-icon {
+      color: var(--color-blue);
     }
     
-    .card-v3:hover {
-      transform: translateY(-15px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    .widget-content {
+      font-size: 14px;
     }
     
-    .card-v3 .card-image {
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Calendar Widget */
+    .calendar-widget .widget-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     
-    .card-v3:hover .card-image {
-      transform: scale(1.05);
-      filter: brightness(1.1);
+    .calendar-date {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 5px;
     }
     
-    .page-transition {
-      animation: slideUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .calendar-month {
+      font-size: 18px;
+      margin-bottom: 10px;
     }
     
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .calendar-day {
+      font-size: 14px;
+      opacity: 0.7;
     }
     
-    /* Custom scrollbar for announcements */
-    .announcement-card::-webkit-scrollbar {
-      width: 6px;
+    /* Notes Widget */
+    .notes-preview {
+      margin-bottom: 15px;
     }
     
-    .announcement-card::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
+    .note-item {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    .announcement-card::-webkit-scrollbar-thumb {
-      background: rgba(0, 102, 255, 0.3);
-      border-radius: 10px;
+    .note-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
     }
     
-    .announcement-card::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 102, 255, 0.5);
+    .note-title {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .note-preview {
+      font-size: 12px;
+      opacity: 0.7;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .widget-action {
+      display: inline-block;
+      padding: 8px 12px;
+      background: rgba(58, 174, 252, 0.2);
+      color: var(--color-blue);
+      border-radius: 16px;
+      text-decoration: none;
+      font-size: 12px;
+      transition: var(--transition-default);
+    }
+    
+    .widget-action:hover {
+      background: rgba(58, 174, 252, 0.3);
     }
   </style>
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
-<body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <a href="index.html" id="logo">
-        <i class="fa fa-globe"></i>
-      </a>
-    </div>
+<body class="theme-deep-blue">
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar-container"></div>
     
-    <div class="sidebar-nav">
-      <a href="index.html" class="nav-item active" id="nav-home">
-        <i class="fa fa-home"></i>
-        <span class="tooltip">home</span>
-      </a>
-      
-      <a href="g.html" class="nav-item" id="nav-games">
-        <i class="fa fa-gamepad"></i>
-        <span class="tooltip">games</span>
-      </a>
-      
-      <a href="a.html" class="nav-item" id="nav-apps">
-        <i class="fa fa-th"></i>
-        <span class="tooltip">apps</span>
-      </a>
-      
-      <a href="p.html" class="nav-item" id="nav-proxy">
-        <i class="fa fa-globe"></i>
-        <span class="tooltip">proxy</span>
-      </a>
-    </div>
-    
-    <div class="sidebar-bottom">
-      <a href="s.html" class="nav-item" id="nav-settings">
-        <i class="fa fa-cog"></i>
-        <span class="tooltip">settings</span>
-      </a>
-    </div>
-  </div>
-  
-  <!-- Main Content -->
-  <div class="container page-transition">
-    <h1>midnight</h1>
-    
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <i class="fa fa-search" style="margin-right: 10px; color: #aaa;"></i>
-      <input type="text" placeholder="search games, apps, or enter a url..." id="search-input">
-    </div>
-    
-    <!-- Announcements -->
-    <div class="announcement-card">
-      <h2>latest announcements</h2>
-      
-      <div class="announcement">
-        <div class="announcement-title">new games added!</div>
-        <div class="announcement-date">august 18, 2025</div>
-        <div class="announcement-content">
-          we've added 10 new games to our collection. check them out in the games section!
-        </div>
-      </div>
-      
-      <div class="announcement">
-        <div class="announcement-title">proxy updates</div>
-        <div class="announcement-date">august 15, 2025</div>
-        <div class="announcement-content">
-          our proxy service has been updated with improved speed and reliability. enjoy seamless browsing!
-        </div>
-      </div>
-      
-      <div class="announcement">
-        <div class="announcement-title">new ui released</div>
-        <div class="announcement-date">august 10, 2025</div>
-        <div class="announcement-content">
-          we're excited to announce our new ui with improved visuals and performance. let us know what you think!
-        </div>
-      </div>
-      
-      <div class="announcement">
-        <div class="announcement-title">maintenance notice</div>
-        <div class="announcement-date">august 5, 2025</div>
-        <div class="announcement-content">
-          scheduled maintenance will occur on august 25th from 2-4 am utc. some services may be temporarily unavailable.
-        </div>
-      </div>
-      
-      <div class="announcement">
-        <div class="announcement-title">new particle effects</div>
-        <div class="announcement-date">august 1, 2025</div>
-        <div class="announcement-content">
-          we've added new particle effects to the portal! check out the settings page to try rain, snow, and stars.
-        </div>
-      </div>
-      
-      <div class="announcement">
-        <div class="announcement-title">theme updates</div>
-        <div class="announcement-date">july 28, 2025</div>
-        <div class="announcement-content">
-          you can now customize the portal with different accent colors and background themes. visit settings to try them out!
-        </div>
-      </div>
-    </div>
-    
-    <!-- Partners Section -->
-    <div class="partners-section">
-      <h2>our partners</h2>
-      
-      <div class="partners-grid">
-        <a href="https://example.com/partner1" class="partner-logo" target="_blank">
-          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P1" alt="Partner 1">
-        </a>
+    <!-- Content -->
+    <div class="content">
+      <div class="container">
+        <!-- Header -->
+        <div class="header-container"></div>
         
-        <a href="https://example.com/partner2" class="partner-logo" target="_blank">
-          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P2" alt="Partner 2">
-        </a>
-        
-        <a href="https://example.com/partner3" class="partner-logo" target="_blank">
-          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P3" alt="Partner 3">
-        </a>
-        
-        <a href="https://example.com/partner4" class="partner-logo" target="_blank">
-          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P4" alt="Partner 4">
-        </a>
-        
-        <a href="https://example.com/partner5" class="partner-logo" target="_blank">
-          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P5" alt="Partner 5">
-        </a>
-        
-        <a href="https://example.com/partner6" class="partner-logo" target="_blank">
-          <img src="https://via.placeholder.com/100x100/333333/0066ff?text=P6" alt="Partner 6">
-        </a>
-      </div>
-    </div>
-    
-    <!-- Quick Access -->
-    <div class="card-grid">
-      <div class="card-v3">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Popular+Game" alt="Popular Game" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="play popular game">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">popular game</div>
-          <div class="card-description">most played game this week</div>
+        <!-- Logo -->
+        <div class="logo-container">
+          <div class="logo">
+            midnight
+            <div class="logo-dot"></div>
+          </div>
+          <div class="tagline">all in one hub</div>
         </div>
-      </div>
-      
-      <div class="card-v3">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=New+App" alt="New App" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="open new app">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">new app</div>
-          <div class="card-description">latest addition to our collection</div>
-        </div>
-      </div>
-      
-      <div class="card-v3">
-        <img src="https://via.placeholder.com/300x150/333333/0066ff?text=Quick+Proxy" alt="Quick Proxy" class="card-image">
-        <a href="#" class="play-button" target="_blank" title="use quick proxy">
-          <i class="fa fa-play"></i>
-        </a>
-        <div class="card-content">
-          <div class="card-title">quick proxy</div>
-          <div class="card-description">fast access to our proxy service</div>
+        
+        <div class="home-grid">
+          <div class="home-grid-left">
+            <!-- Quick Tiles -->
+            <div class="quick-tiles staggered-list">
+              <a href="g.html" class="quick-tile">
+                <div class="quick-tile-icon">
+                  <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <div class="quick-tile-label">games</div>
+              </a>
+              
+              <a href="a.html" class="quick-tile">
+                <div class="quick-tile-icon">
+                  <i class="fa-solid fa-th-large"></i>
+                </div>
+                <div class="quick-tile-label">apps</div>
+              </a>
+              
+              <a href="p.html" class="quick-tile">
+                <div class="quick-tile-icon">
+                  <i class="fa-solid fa-globe"></i>
+                </div>
+                <div class="quick-tile-label">proxy</div>
+              </a>
+              
+              <a href="ai.html" class="quick-tile">
+                <div class="quick-tile-icon">
+                  <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="quick-tile-label">ai</div>
+              </a>
+              
+              <a href="vm.html" class="quick-tile">
+                <div class="quick-tile-icon">
+                  <i class="fa-solid fa-desktop"></i>
+                </div>
+                <div class="quick-tile-label">vm</div>
+              </a>
+              
+              <a href="m.html" class="quick-tile">
+                <div class="quick-tile-icon">
+                  <i class="fa-solid fa-film"></i>
+                </div>
+                <div class="quick-tile-label">movies</div>
+              </a>
+              
+              <a href="s.html" class="quick-tile">
+                <div class="quick-tile-icon">
+                  <i class="fa-solid fa-gear"></i>
+                </div>
+                <div class="quick-tile-label">settings</div>
+              </a>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="recent-section">
+              <h2>recent activity</h2>
+              <div class="recent-items" id="recent-items">
+                <!-- Recent items will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="home-grid-right">
+            <!-- Announcements -->
+            <div class="announcements-section">
+              <h2>announcements</h2>
+              <div class="announcements-list">
+                <div class="announcement-card">
+                  <div class="announcement-header">
+                    <div class="announcement-title">new games added</div>
+                    <div class="announcement-date">today</div>
+                  </div>
+                  <div class="announcement-content">
+                    check out the new games we've added to the games section!
+                  </div>
+                </div>
+                
+                <div class="announcement-card">
+                  <div class="announcement-header">
+                    <div class="announcement-title">server maintenance</div>
+                    <div class="announcement-date">yesterday</div>
+                  </div>
+                  <div class="announcement-content">
+                    we've completed server maintenance. everything should be running smoothly now.
+                  </div>
+                </div>
+                
+                <div class="announcement-card">
+                  <div class="announcement-header">
+                    <div class="announcement-title">new feature: themes</div>
+                    <div class="announcement-date">3 days ago</div>
+                  </div>
+                  <div class="announcement-content">
+                    you can now customize the look of midnight with different themes!
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Quick Info Widgets -->
+            <div class="widgets-section">
+              <!-- Calendar Widget -->
+              <div class="widget calendar-widget">
+                <div class="widget-header">
+                  <div class="widget-title">calendar</div>
+                  <div class="widget-icon"><i class="fa-solid fa-calendar"></i></div>
+                </div>
+                <div class="widget-content" id="calendar-widget-content">
+                  <!-- Calendar will be populated by JavaScript -->
+                </div>
+              </div>
+              
+              <!-- Notes Widget -->
+              <div class="widget notes-widget">
+                <div class="widget-header">
+                  <div class="widget-title">notes</div>
+                  <div class="widget-icon"><i class="fa-solid fa-note-sticky"></i></div>
+                </div>
+                <div class="widget-content">
+                  <div class="notes-preview">
+                    <div class="note-item">
+                      <div class="note-title">homework reminder</div>
+                      <div class="note-preview">finish math assignment by friday...</div>
+                    </div>
+                    <div class="note-item">
+                      <div class="note-title">meeting notes</div>
+                      <div class="note-preview">discuss project timeline and...</div>
+                    </div>
+                  </div>
+                  <a href="a.html?app=notepad" class="widget-action">open notes</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+  <script src="js/wallpaper.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/main.js"></script>
   
   <script>
-    // Initialize search functionality
+    // Populate recent items and calendar
     document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.getElementById('search-input');
+      const recentItemsContainer = document.getElementById('recent-items');
+      const calendarWidgetContent = document.getElementById('calendar-widget-content');
       
-      searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          const query = searchInput.value.trim().toLowerCase();
+      // Populate calendar widget
+      function populateCalendar() {
+        const now = new Date();
+        const date = now.getDate();
+        const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+        const month = monthNames[now.getMonth()];
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const day = dayNames[now.getDay()];
+        
+        calendarWidgetContent.innerHTML = `
+          <div class="calendar-date">${date}</div>
+          <div class="calendar-month">${month}</div>
+          <div class="calendar-day">${day}</div>
+        `;
+      }
+      
+      // Populate calendar
+      populateCalendar();
+      
+      // Wait for MidnightApp to initialize
+      setTimeout(() => {
+        if (window.midnightApp) {
+          const recentItems = window.midnightApp.getRecentItems();
           
-          if (query) {
-            // Check if it's a URL
-            if (query.includes('.') || query.startsWith('http')) {
-              // It's likely a URL, redirect to proxy
-              window.location.href = 'p.html?url=' + encodeURIComponent(query);
-            } else {
-              // It's a search query, redirect to games/apps with search parameter
-              window.location.href = 'g.html?search=' + encodeURIComponent(query);
-            }
+          if (recentItems.length === 0) {
+            recentItemsContainer.innerHTML = '<p>no recent items yet</p>';
+            return;
           }
+          
+          recentItemsContainer.innerHTML = '';
+          
+          recentItems.forEach(item => {
+            const itemElement = document.createElement('a');
+            itemElement.href = item.url;
+            itemElement.className = 'recent-item';
+            
+            itemElement.innerHTML = `
+              <div class="recent-item-icon">
+                <i class="fa-solid ${item.icon}"></i>
+              </div>
+              <div class="recent-item-label">${item.title}</div>
+            `;
+            
+            recentItemsContainer.appendChild(itemElement);
+          });
         }
-      });
+      }, 500);
     });
   </script>
 </body>
