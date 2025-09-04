@@ -52,6 +52,12 @@
       </a>
     </li>
     <li class="sidebar-nav-item">
+      <a href="music.html" class="sidebar-nav-link">
+        <span class="sidebar-nav-icon"><i class="fa-solid fa-music"></i></span>
+        <span class="sidebar-nav-text">music</span>
+      </a>
+    </li>
+    <li class="sidebar-nav-item">
       <a href="s.html" class="sidebar-nav-link">
         <span class="sidebar-nav-icon"><i class="fa-solid fa-gear"></i></span>
         <span class="sidebar-nav-text">settings</span>
@@ -59,8 +65,84 @@
     </li>
   </ul>
   
+  <div class="sidebar-extra">
+    <div class="sidebar-extra-item" id="extra-btn">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+    <div class="sidebar-extra-item" id="links-btn">
+      <i class="fa-solid fa-link"></i>
+    </div>
+    <div class="sidebar-extra-item" id="discord-btn">
+      <i class="fa-brands fa-discord"></i>
+    </div>
+  </div>
+
   <div class="sidebar-footer">
     <span>midnight v1.0</span>
   </div>
 </div>
+
+<!-- Popups -->
+<div class="popup" id="extra-popup">
+  <div class="popup-header">
+    <div class="popup-title">extras</div>
+    <div class="popup-close" data-popup="extra-popup">
+      <i class="fa-solid fa-times"></i>
+    </div>
+  </div>
+  <div class="popup-content">
+    <p>welcome to the extras section! here you'll find additional tools and features that we're working on.</p>
+    <p>coming soon:</p>
+    <ul>
+      <li>custom themes</li>
+      <li>bookmarks manager</li>
+      <li>notes and reminders</li>
+      <li>download manager</li>
+    </ul>
+    <p>check back often for updates!</p>
+  </div>
+</div>
+
+<div class="popup" id="links-popup">
+  <div class="popup-header">
+    <div class="popup-title">quick links</div>
+    <div class="popup-close" data-popup="links-popup">
+      <i class="fa-solid fa-times"></i>
+    </div>
+  </div>
+  <div class="popup-content">
+    <p>useful links for quick access:</p>
+    <ul>
+      <li><a href="#" target="_blank">documentation</a></li>
+      <li><a href="#" target="_blank">support</a></li>
+      <li><a href="#" target="_blank">github repository</a></li>
+      <li><a href="#" target="_blank">report issues</a></li>
+      <li><a href="#" target="_blank">feature requests</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="popup" id="discord-popup">
+  <div class="popup-header">
+    <div class="popup-title">discord community</div>
+    <div class="popup-close" data-popup="discord-popup">
+      <i class="fa-solid fa-times"></i>
+    </div>
+  </div>
+  <div class="popup-content">
+    <p>join our discord community to connect with other users, get help, and stay updated on the latest developments!</p>
+    <p>invite link: <a href="#" target="_blank">discord.gg/midnight</a></p>
+    <p>in our discord server you can:</p>
+    <ul>
+      <li>get help with using midnight</li>
+      <li>suggest new features</li>
+      <li>report bugs</li>
+      <li>chat with other users</li>
+      <li>participate in community events</li>
+    </ul>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-overlay"></div>
+
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
