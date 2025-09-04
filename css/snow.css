@@ -1,0 +1,43 @@
+
+/* Snow Particles Effect */
+.snow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.snow {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  animation: fall linear infinite, fade-in 1s ease forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* No animations state */
+.no-animations .snow {
+  display: none;
+}
+
+.reduce-motion .snow {
+  animation: fade-in 1s ease forwards;
+  transform: none;
+}
